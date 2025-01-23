@@ -13,7 +13,7 @@ const SideBar = () => {
       {/* Sidebar Section */}
 
       <NavLink
-        to="/annedashboard"
+        to="/receptionist"
         className={({ isActive }) =>
           `flex items-center px-6 py-3 rounded-lg text-sm font-medium ${
             isActive
@@ -27,7 +27,7 @@ const SideBar = () => {
       </NavLink>
 
       <NavLink
-        to="/annedashboard/patients"
+        to="/receptionist/patients"
         className={({ isActive }) =>
           `flex items-center px-6 py-3 rounded-lg text-sm font-medium ${
             isActive
@@ -41,7 +41,7 @@ const SideBar = () => {
       </NavLink>
 
       <NavLink
-        to="/annedashboard/queue-list"
+        to="/receptionist/queue-list"
         className={({ isActive }) =>
           `flex items-center px-6 py-3 rounded-lg text-sm font-medium ${
             isActive
@@ -55,7 +55,7 @@ const SideBar = () => {
       </NavLink>
 
       <NavLink
-        to="/annedashboard/appointment-list"
+        to="/receptionist/appointment-list"
         className={({ isActive }) =>
           `flex items-center px-6 py-3 rounded-lg text-sm font-medium ${
             isActive
@@ -69,7 +69,7 @@ const SideBar = () => {
       </NavLink>
 
       <NavLink
-        to="/annedashboard/receptionist-profile"
+        to="/receptionist/receptionist-profile"
         className={({ isActive }) =>
           `flex items-center px-6 py-3 rounded-lg text-sm font-medium ${
             isActive
