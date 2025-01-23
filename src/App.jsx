@@ -1,30 +1,24 @@
-<<<<<<< HEAD
 import React from 'react'
 import {BrowserRouter as Router, Routes, Route } from "react-router-dom"
-import DoctorLogin from "../src/pages/Login/DoctorLogin";
+import { UserProvider } from './context/AuthContext'
+import DoctorLogin from "./pages/Login/DoctorLogin";
+import DoctorRegister from "./pages/Register/DoctorRegister";
+import DoctorDashboard from './pages/Dashboard/DoctorDashboard';
+import SinglePatient from './pages/SinglePatient';
 
 function App() {
   return(
-  
+    <UserProvider>
       <Router>
         <Routes>
           <Route path="/DoctorLogin" element={<DoctorLogin />} />
+          <Route path="/DoctorRegister" element={<DoctorRegister />} />
+          <Route path="/DoctorDashboard" element={<DoctorDashboard />} />
+          <Route path="/patients/:patientId" element={<SinglePatient />} />
         </Routes>
       </Router>
+    </UserProvider>
   )
-=======
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import "./App.css";
-
-function App() {
-  const [count, setCount] = useState(0);
-
-  return (
-    <h1 className="text-3xl font-bold underline text-center">Hello world!</h1>
-  );
->>>>>>> 2c657c55ad92670eed0d48b8ee2cde8b0084ad67
 }
 
 export default App;
