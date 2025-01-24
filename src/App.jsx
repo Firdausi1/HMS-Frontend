@@ -1,5 +1,10 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import DoctorRegister from "./pages/Register/DoctorRegister";
 import DoctorDashboard from "./pages/Dashboard/DoctorDashboard/DoctorDashboard";
 import SinglePatient from "./pages/SinglePatient";
@@ -13,6 +18,13 @@ import ReceptionistDashboard from "./pages/Dashboard/ReceptionistDashboard/AnneD
 import { useContext } from "react";
 import { AuthContext } from "./context/AuthContext";
 import PrivateRoute from "./route/PrivateRoute";
+import NurseDashboard from "./pages/Dashboard/NurseDashboard/NurseDashboard";
+import Layout2 from "./pages/Dashboard/NurseDashboard/Layout2";
+import Vitals from "./pages/Dashboard/NurseDashboard/Vitals";
+import BedAllotment from "./pages/Dashboard/NurseDashboard/BedAllotment";
+import AddBed from "./pages/Dashboard/NurseDashboard/AddBed";
+import NurseProfile from "./pages/Dashboard/NurseDashboard/NurseProfile";
+import Patients2 from "./pages/Dashboard/NurseDashboard/Patients2";
 
 function App() {
   const { user } = useContext(AuthContext);
@@ -48,6 +60,14 @@ function App() {
             path="receptionist-profile"
             element={<ReceptionistProfile />}
           />
+        </Route>
+        <Route path="/nurse" element={<PrivateRoute Component={Layout2} />}>
+          <Route index element={<NurseDashboard />} /> {/* Default route */}
+          <Route path="patients" element={<Patients2 />} />
+          <Route path="vitals" element={<Vitals />} />
+          <Route path="bed-allotment" element={<BedAllotment />} />
+          <Route path="add-bed" element={<AddBed />} />
+          <Route path="profile" element={<NurseProfile />} />
         </Route>
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
