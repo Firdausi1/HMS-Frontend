@@ -11,7 +11,7 @@ function DoctorLogin() {
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch('http://localhost:3001/api/doctor/login', {
+            const response = await fetch('http://localhost:3001/api/employee/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
