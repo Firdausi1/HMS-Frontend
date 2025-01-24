@@ -24,15 +24,15 @@ const NurseDashboard = () => {
     const fetchData = async () => {
       try {
         const patientsResponse = await axios.get(BASE_URL_PATIENTS);
-        console.log("Patients Response:", patientsResponse.data);
+        // console.log("Patients Response:", patientsResponse.data);
         setPatients(patientsResponse.data);
 
         const vitalsResponse = await axios.get(BASE_URL_VITALS);
-        console.log("Vitals Response:", vitalsResponse.data.data);
+        // console.log("Vitals Response:", vitalsResponse.data.data);
         setVitals(vitalsResponse.data.data);
 
         const bedAllotmentResponse = await axios.get(BASE_URL_BED_ALLOTMENT);
-        console.log("Bed Allotment Response:", bedAllotmentResponse.data.data);
+        // console.log("Bed Allotment Response:", bedAllotmentResponse.data.data);
         setBedAllotment(bedAllotmentResponse.data.data);
       } catch (error) {
         console.error("Error fetching data:", error);
