@@ -42,8 +42,7 @@ const Employees = () => {
     return <Loader text={"Loading Employees..."} />;
   }
   return (
-    <div className="p-6">
-      {/* Header Buttons */}
+    <div >
       <div className="flex border-b mb-6">
         <button
           className={`px-4 py-2 text-sm font-medium ${

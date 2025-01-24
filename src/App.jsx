@@ -32,7 +32,7 @@ import PharmacistProfile from "./pages/Dashboard/PharmacistDashboard/PharmacistP
 import AdminDashboard from "./pages/Dashboard/Admin/AdminDashboard";
 import Employees from "./pages/Dashboard/Admin/Employees/Employees";
 import AdminLogin from "./pages/Login/AdminLogin";
-import { adminDashboardLinks } from "./layout/AdminNav";
+import { adminDashboardLinks } from "./layout/NavLinks";
 import Departments from "./pages/Dashboard/Admin/Departments/Departments";
 import AdminProfile from "./pages/Dashboard/Admin/Profile/AdminProfile.jsx";
 import DashboardLayout from "./layout/Layout";
@@ -93,8 +93,8 @@ function App() {
             </PrivateRoute>
           }
         >
-          {/* <Route index element={<AdminDashboard />} /> */}
-          <Route index path="employee" element={<Employees />} />
+          <Route index element={<AdminDashboard />} />
+          <Route path="employee" element={<Employees />} />
           <Route path="department" element={<Departments />} />
           <Route path="profile" element={<AdminProfile />} />
         </Route>

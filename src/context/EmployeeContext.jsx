@@ -1,4 +1,5 @@
 import React, { createContext, useState, useEffect } from "react";
+import toast from "react-hot-toast";
 import { deleteRequest, getRequest, postRequest, putRequest } from "../api/api";
 
 const EmployeeContext = createContext();
@@ -20,29 +21,43 @@ const EmployeeProvider = ({ children }) => {
 
   const createEmployee = async (value) => {
     try {
-      const { data } = await postRequest(`employee/register`, value);
-      getEmployees(1);
+      const response = await postRequest(`employee/register`, value);
+      if (response.status === 200) {
+        toast.success("Employee created successfully");
+      }
     } catch (err) {
+      toast.error("Count not create employee");
       console.log(err);
+    } finally {
+      getEmployees(1);
     }
   };
 
   const deleteEmployee = async () => {
     try {
       const { data } = await deleteRequest(`employee/${employeeId}`);
-      console.log(data);
-      getEmployees(1);
+      if (data.status_code === 200) {
+        toast.success("Employee deleted successfully");
+      }
     } catch (err) {
+      toast.error("Counld not delete employee record");
       console.log(err);
+    } finally {
+      getEmployees(1);
     }
   };
 
   const updateEmployee = async (value) => {
     try {
-      const { data } = await putRequest(`employee/${employeeId}`, value);
-      getEmployees(1);
+      const response = await putRequest(`employee/${employeeId}`, value);
+      if (response.status === 200) {
+        toast.success("Employee updated successfully");
+      }
     } catch (err) {
+      toast.error("Counld not update employee record");
       console.log(err);
+    } finally {
+      getEmployees(1);
     }
   };
 
@@ -51,29 +66,20 @@ const EmployeeProvider = ({ children }) => {
       if (value === "Doctor") {
         const { data } = await getRequest(`doctor`);
         setEmployees(data);
-        // setEmployeeMeta(data.pagination);
       } else if (value === "Nurse") {
         const { data } = await getRequest(`nurse`);
         setEmployees(data);
-        // setEmployees(data.data);
-        // setEmployeeMeta(data.pagination);
       } else if (value === "Accountant") {
         const { data } = await getRequest(`accountant`);
         setEmployees(data);
-        // setEmployees(data.data);
-        // setEmployeeMeta(data.pagination);
       } else if (value === "Receptionist") {
         const { data } = await getRequest(`receptionist`);
         setEmployees(data);
-        // setEmployees(data.data);
-        // setEmployeeMeta(data.pagination);
       } else if (value === "Pharmacist") {
         const { data } = await getRequest(`pharmacist`);
         setEmployees(data.data);
-        // setEmployees(data.data);
-        // setEmployeeMeta(data.pagination);
       } else {
-        getEmployees(1)
+        getEmployees(1);
       }
     } catch (err) {
       console.log(err);

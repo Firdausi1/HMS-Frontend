@@ -22,30 +22,6 @@ const ReceptionistProfile = () => {
     confirmPassword: "",
   });
 
-  // Fetch receptionist data
-  // useEffect(() => {
-  //   const fetchReceptionistData = async () => {
-  //     try {
-  //       const response = await axios.get(
-  //         "http://localhost:3001/api/receptionist"
-  //       );
-  //       const data = response.data[0]; // Assuming it's an array and we want the first item
-  //       setReceptionist(data);
-  //       setFormData({
-  //         first_name: data.first_name,
-  //         last_name: data.last_name,
-  //         email: data.email,
-  //         phone: data.phone || "",
-  //         address: data.address || "",
-  //       });
-  //     } catch (error) {
-  //       console.error("Error fetching receptionist data:", error);
-  //     }
-  //   };
-
-  //   fetchReceptionistData();
-  // }, []);
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -80,37 +56,6 @@ const ReceptionistProfile = () => {
     // Toggle editable mode after submit
     setIsEditable(!isEditable);
   };
-
-  // const handlePasswordSubmit = async (event) => {
-  //   event.preventDefault();  // Prevent page reload
-
-  //   const { oldPassword, newPassword, confirmPassword } = passwordData;
-
-  //   // Basic validation
-  //   if (newPassword !== confirmPassword) {
-  //     alert("New passwords do not match.");
-  //     return;
-  //   }
-
-  //   const data = {
-  //     oldPassword: oldPassword,
-  //     newPassword: newPassword,
-  //     confirmPassword: confirmPassword,
-  //   };
-
-  //   try {
-  //     const response = await axios.put(
-  //       `http://localhost:5000/receptionist/${receptionist._id}`,
-  //       data
-  //     );
-  //     console.log("password updated:", response.data);
-  //     alert("Password changed successfully");
-  //     setPasswordData({ oldPassword: '', newPassword: '', confirmPassword: '' });  // Clear form data
-  //   } catch (error) {
-  //     console.error("Error changing password:", error);
-  //     alert("An error occurred while updating the information.");
-  //   }
-  // };
 
   const handlePasswordSubmit = async (e) => {
     e.preventDefault();

@@ -15,13 +15,12 @@ function Departments() {
   useEffect(() => {
     getDepartments();
   }, []);
-  
+
   if (!departments) {
     return <Loader text={"Loading Departments..."} />;
   }
   return (
-    <div className="p-6">
-      {/* Header Buttons */}
+    <div>
       <div className="flex border-b mb-6">
         <button
           className={`px-4 py-2 text-sm font-medium ${
