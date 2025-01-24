@@ -55,7 +55,7 @@ function App() {
           path="/receptionist"
           element={<PrivateRoute Component={Layout} />}
         >
-          <Route index element={<ReceptionistDashboard />} />{" "}
+          <Route index element={<ReceptionistDashboard />} />
           {/* Default route */}
           <Route path="patients" element={<Patients />} />
           <Route path="queue-list" element={<Queue />} />
@@ -66,6 +66,7 @@ function App() {
           />
         </Route>
         <Route path="/nurse" element={<PrivateRoute Component={Layout2} />}>
+          <Route index element={<NurseDashboard />} />
           <Route path="patients" element={<Patients2 />} />
           <Route path="vitals" element={<Vitals />} />
           <Route path="bed-allotment" element={<BedAllotment />} />
