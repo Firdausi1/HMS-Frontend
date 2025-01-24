@@ -98,11 +98,13 @@ function ViewEmployees({ setToggleTab }) {
           ))}
         </tbody>
       </table>
-      <Pagination
-        data={employeeMeta}
-        next={() => getEmployees(employeeMeta?.currentPage + 1)}
-        prev={() => getEmployees(employeeMeta?.currentPage - 1)}
-      />
+      {employeeMeta && (
+        <Pagination
+          data={employeeMeta}
+          next={() => getEmployees(employeeMeta?.currentPage + 1)}
+          prev={() => getEmployees(employeeMeta?.currentPage - 1)}
+        />
+      )}
       {showModal && (
         <DeleteModal
           close={() => setShowModal(false)}

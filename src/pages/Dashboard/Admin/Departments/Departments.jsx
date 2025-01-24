@@ -2,18 +2,23 @@ import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useContext } from "react";
+import Loader from "../../../../components/Loader/Loader";
 import { DepartmentContext } from "../../../../context/DepartmentContext";
 import AddDepartment from "./AddDepartment";
 import ViewDepartments from "./ViewDepartments";
 
 function Departments() {
-  const { getDepartments, setDepartmentId } = useContext(DepartmentContext);
+  const { getDepartments, setDepartmentId, departments } =
+    useContext(DepartmentContext);
   const [toggleTab, setToggleTab] = useState("department");
 
   useEffect(() => {
     getDepartments();
   }, []);
-
+  
+  if (!departments) {
+    return <Loader text={"Loading Departments..."} />;
+  }
   return (
     <div className="p-6">
       {/* Header Buttons */}

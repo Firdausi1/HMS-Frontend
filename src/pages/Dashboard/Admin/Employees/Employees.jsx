@@ -3,13 +3,14 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { useContext } from "react";
 import { postRequest } from "../../../../api/api";
+import Loader from "../../../../components/Loader/Loader";
 import { DepartmentContext } from "../../../../context/DepartmentContext";
 import { EmployeeContext } from "../../../../context/EmployeeContext";
 import AddEmployee from "./AddEmployee";
 import ViewEmployees from "./ViewEmployees";
 
 const Employees = () => {
-  const { getEmployees, setEmployeeId, employeeMeta } =
+  const { getEmployees, setEmployeeId, employeeMeta, employees } =
     useContext(EmployeeContext);
   const { getDepartments } = useContext(DepartmentContext);
   const [toggleTab, setToggleTab] = useState("employee");
@@ -37,7 +38,9 @@ const Employees = () => {
     getEmployees(employeeMeta?.currentPage);
     getDepartments();
   }, []);
-
+  if (!employees) {
+    return <Loader text={"Loading Employees..."} />;
+  }
   return (
     <div className="p-6">
       {/* Header Buttons */}

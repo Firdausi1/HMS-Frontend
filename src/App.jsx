@@ -38,7 +38,6 @@ import Departments from "./pages/Dashboard/Admin/Departments/Departments";
 import AdminProfile from "./pages/Dashboard/Admin/Profile/AdminProfile.jsx";
 
 function App() {
-  const { user } = useContext(AuthContext);
   return (
     <Router>
       <Routes>
@@ -67,7 +66,6 @@ function App() {
           />
         </Route>
         <Route path="/nurse" element={<PrivateRoute Component={Layout2} />}>
-          <Route index element={<NurseDashboard />} /> {/* Default route */}
           <Route path="patients" element={<Patients2 />} />
           <Route path="vitals" element={<Vitals />} />
           <Route path="bed-allotment" element={<BedAllotment />} />
@@ -83,9 +81,9 @@ function App() {
           }
         >
           {/* <Route index element={<AdminDashboard />} /> */}
-          <Route index path="/admin/employee" element={<Employees />} />
-          <Route path="/admin/department" element={<Departments />} />
-          <Route path="/admin/profile" element={<AdminProfile />} />
+          <Route index path="employee" element={<Employees />} />
+          <Route path="department" element={<Departments />} />
+          <Route path="profile" element={<AdminProfile />} />
         </Route>
         <Route
           path="/pharmacist"

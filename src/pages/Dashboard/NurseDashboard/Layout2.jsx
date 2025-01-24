@@ -1,6 +1,6 @@
-import React from 'react'
-import { Outlet } from 'react-router-dom'
-import Sidebar2 from './Sidebar2';
+import React from "react";
+import { Outlet } from "react-router-dom";
+import Sidebar2 from "./Sidebar2";
 
 const Layout2 = () => {
   return (
