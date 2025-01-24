@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useContext } from "react";
+import { AuthContext } from "../../../context/AuthContext";
+import { putRequest } from "../../../api/api";
 
 const ReceptionistProfile = () => {
-  const [receptionist, setReceptionist] = useState(null);
-  const [formData, setFormData] = useState({
-    first_name: "",
-    last_name: "",
-    email: "",
-    phone: "",
-    address: "",
-  });
   const [isEditable, setIsEditable] = useState(false); // Track if the form is in editable mode
-
-
+  const { user, setUser } = useContext(AuthContext);
+  const [formData, setFormData] = useState({
+    firstName: user?.firstName,
+    lastName: user?.lastName,
+    email: user?.email,
+    phone: user?.phone,
+    address: user?.address,
+  });
 
   // Password change fields
   const [passwordData, setPasswordData] = useState({
@@ -22,26 +23,28 @@ const ReceptionistProfile = () => {
   });
 
   // Fetch receptionist data
-  useEffect(() => {
-    const fetchReceptionistData = async () => {
-      try {
-        const response = await axios.get("http://localhost:3001/api/receptionist");
-        const data = response.data[0]; // Assuming it's an array and we want the first item
-        setReceptionist(data);
-        setFormData({
-          first_name: data.first_name,
-          last_name: data.last_name,
-          email: data.email,
-          phone: data.phone || "",
-          address: data.address || "",
-        });
-      } catch (error) {
-        console.error("Error fetching receptionist data:", error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchReceptionistData = async () => {
+  //     try {
+  //       const response = await axios.get(
+  //         "http://localhost:3001/api/receptionist"
+  //       );
+  //       const data = response.data[0]; // Assuming it's an array and we want the first item
+  //       setReceptionist(data);
+  //       setFormData({
+  //         first_name: data.first_name,
+  //         last_name: data.last_name,
+  //         email: data.email,
+  //         phone: data.phone || "",
+  //         address: data.address || "",
+  //       });
+  //     } catch (error) {
+  //       console.error("Error fetching receptionist data:", error);
+  //     }
+  //   };
 
-    fetchReceptionistData();
-  }, []);
+  //   fetchReceptionistData();
+  // }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -65,12 +68,9 @@ const ReceptionistProfile = () => {
     // If form is editable, submit the data and show alert
     if (isEditable) {
       try {
-        const response = await axios.put(
-          `http://localhost:3001/api/receptionist/${receptionist._id}`,
-          formData
-        );
-        console.log("Updated receptionist data:", response.data);
-        setReceptionist(response.data); // Update state with new data
+        const response = await putRequest(`employee/${user.id}`, formData);
+        localStorage.setItem("user", JSON.stringify(response.data.data));
+        setUser(response.data.data); // Update state with new data
         alert("Receptionist updated!"); // Show success alert
       } catch (error) {
         console.error("Error updating receptionist data:", error);
@@ -80,10 +80,6 @@ const ReceptionistProfile = () => {
     // Toggle editable mode after submit
     setIsEditable(!isEditable);
   };
-
-
- 
-
 
   // const handlePasswordSubmit = async (event) => {
   //   event.preventDefault();  // Prevent page reload
@@ -116,7 +112,6 @@ const ReceptionistProfile = () => {
   //   }
   // };
 
-
   const handlePasswordSubmit = async (e) => {
     e.preventDefault();
 
@@ -128,11 +123,10 @@ const ReceptionistProfile = () => {
 
     try {
       const response = await axios.put(
-        `http://localhost:3001/api/receptionist/${receptionist._id}`,
+        `employee/update_password/${user.id}`,
         {
           oldPassword: passwordData.oldPassword,
           newPassword: passwordData.newPassword,
-          confirmPassword:passwordData.confirmPassword,
         }
       );
       console.log("Password changed:", response.data);
@@ -151,7 +145,7 @@ const ReceptionistProfile = () => {
   };
 
   // Return loader if data is not yet fetched
-  if (!receptionist) {
+  if (!user) {
     return (
       <div className="min-h-screen bg-blue-50 flex items-center justify-center">
         <p className="text-lg text-gray-700">Loading receptionist data...</p>
@@ -166,27 +160,45 @@ const ReceptionistProfile = () => {
         <div className="flex flex-col items-center mb-8">
           <div className="bg-white w-60 h-60 rounded-full flex items-center justify-center shadow-md">
             <div className="text-center">
-              <p className="font-bold text-lg text-gray-700">{receptionist.first_name} {receptionist.last_name}</p>
-              <p className="text-sm text-gray-500">{receptionist.email}</p>
+              <p className="font-bold text-lg text-gray-700">
+                {user?.firstName} {user?.lastName}
+              </p>
+              <p className="text-sm text-gray-500">{user?.email}</p>
             </div>
           </div>
         </div>
 
         {/* Receptionist Profile Section */}
-        <form onSubmit={handleSubmitProfile} className="bg-blue-200 rounded-lg shadow-md p-6 w-[500px] max-w-lg mb-8">
+        <form
+          onSubmit={handleSubmitProfile}
+          className="bg-blue-200 rounded-lg shadow-md p-6 w-[500px] max-w-lg mb-8"
+        >
           <h2 className="text-lg font-bold text-gray-700 mb-4 flex items-center">
             <span className="mr-2">⚙️</span> PROFILE
           </h2>
           <div className="flex flex-col space-y-4">
             <div>
               <label className="block text-sm font-medium text-gray-700">
-                Name
+                First Name
               </label>
               <input
                 type="text"
-                name="first_name"
+                name="firstName"
                 className="w-full px-4 py-2 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                value={`${formData.first_name} ${formData.last_name}`}
+                value={formData?.firstName}
+                onChange={handleInputChange}
+                readOnly={!isEditable}
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Last Name
+              </label>
+              <input
+                type="text"
+                name="lastName"
+                className="w-full px-4 py-2 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                value={formData?.lastName}
                 onChange={handleInputChange}
                 readOnly={!isEditable}
               />
@@ -199,7 +211,7 @@ const ReceptionistProfile = () => {
                 type="email"
                 name="email"
                 className="w-full px-4 py-2 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                value={formData.email || ""}
+                value={formData?.email || ""}
                 onChange={handleInputChange}
                 readOnly={!isEditable}
               />
@@ -213,7 +225,7 @@ const ReceptionistProfile = () => {
                 type="text"
                 name="phone"
                 className="w-full px-4 py-2 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                value={formData.phone || "Not available"}
+                value={formData?.phone || "Not available"}
                 onChange={handleInputChange}
                 readOnly={!isEditable}
               />
@@ -226,18 +238,26 @@ const ReceptionistProfile = () => {
                 type="text"
                 name="address"
                 className="w-full px-2 py-2 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                value={formData.address || "Not available"}
+                value={formData?.address || "Not available"}
                 onChange={handleInputChange}
                 readOnly={!isEditable}
               />
             </div>
           </div>
-          <button
-            type="submit"
-            className="mt-4 w-[20%] py-2 bg-blue-700 text-white rounded-md font-semibold hover:bg-blue-600 transition"
-          >
-            {isEditable ? "Save Changes" : "Update"}
-          </button>
+          <div>
+            {isEditable ? (
+              <button
+                type="submit"
+                className="mt-4 w-[20%] py-2 bg-blue-700 text-white rounded-md font-semibold hover:bg-blue-600 transition"
+              >
+                Save Changes
+              </button>
+            ) : (
+              <button className="mt-4 w-[20%] py-2 bg-blue-700 text-white rounded-md font-semibold hover:bg-blue-600 transition">
+                Update
+              </button>
+            )}
+          </div>
         </form>
       </div>
 
@@ -286,6 +306,7 @@ const ReceptionistProfile = () => {
               required
             />
           </div>
+
           <button
             type="submit"
             className="mt-4 w-[20%] py-2 bg-blue-700 text-white rounded-md font-semibold hover:bg-blue-600 transition"
@@ -299,6 +320,3 @@ const ReceptionistProfile = () => {
 };
 
 export default ReceptionistProfile;
-
-
-
