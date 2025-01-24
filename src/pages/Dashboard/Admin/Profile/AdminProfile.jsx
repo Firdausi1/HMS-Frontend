@@ -1,6 +1,7 @@
 import React from "react";
 import { useContext } from "react";
 import { useState } from "react";
+import toast from "react-hot-toast";
 import { putRequest } from "../../../../api/api";
 import Loader from "../../../../components/Loader/Loader";
 import { AuthContext } from "../../../../context/AuthContext";
@@ -44,10 +45,14 @@ function AdminProfile() {
     if (isEditable) {
       try {
         const response = await putRequest(`admin/${user.id}`, formData);
-        localStorage.setItem("user", JSON.stringify(response.data.admin));
-        setUser(response.data.admin);
+        if (response.status === 200) {
+          localStorage.setItem("user", JSON.stringify(response.data.data));
+          setUser(response.data.data);
+          toast.success(response.data.message);
+        }
       } catch (error) {
         console.error("Error updating Admin data:", error);
+        toast.error("Could not update profile");
       }
     }
     setIsEditable(!isEditable);
@@ -57,7 +62,7 @@ function AdminProfile() {
     e.preventDefault();
 
     if (passwordData.newPassword !== passwordData.confirmPassword) {
-      alert("New password and confirm password do not match.");
+      toast.error("New password and confirm password do not match.");
       return;
     }
 
@@ -66,8 +71,9 @@ function AdminProfile() {
         oldPassword: passwordData.oldPassword,
         newPassword: passwordData.newPassword,
       });
-      console.log("Password changed:", response.data);
+      if (response.status === 0) toast.success(response.data.message);
     } catch (error) {
+      toast.error("Could not update password");
       console.error("Error changing password:", error);
     }
 
