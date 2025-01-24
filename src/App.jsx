@@ -25,6 +25,12 @@ import BedAllotment from "./pages/Dashboard/NurseDashboard/BedAllotment";
 import AddBed from "./pages/Dashboard/NurseDashboard/AddBed";
 import NurseProfile from "./pages/Dashboard/NurseDashboard/NurseProfile";
 import Patients2 from "./pages/Dashboard/NurseDashboard/Patients2";
+import Layout3 from "./pages/Dashboard/PharmacistDashboard/Layout3";
+import PharmacistDashboard from "./pages/Dashboard/PharmacistDashboard/PharmacistDashboard";
+import Medication from "./pages/Dashboard/PharmacistDashboard/Medication";
+import Prescription from "./pages/Dashboard/PharmacistDashboard/Prescription";
+import Inventory from "./pages/Dashboard/PharmacistDashboard/Inventory";
+import PharmacistProfile from "./pages/Dashboard/PharmacistDashboard/PharmacistProfile";
 
 function App() {
   const { user } = useContext(AuthContext);
@@ -68,6 +74,15 @@ function App() {
           <Route path="bed-allotment" element={<BedAllotment />} />
           <Route path="add-bed" element={<AddBed />} />
           <Route path="profile" element={<NurseProfile />} />
+        </Route>
+        <Route path="/pharmacist" element={<PrivateRoute Component={Layout3} />}>
+          <Route index element={<PharmacistDashboard />} /> {/* Default route */}
+          <Route path="patients" element={<Patients2 />} />
+          <Route path="medication" element={<Medication />} />
+          <Route path="prescription" element={<Prescription />} />
+          <Route path="inventory" element={<Inventory />} />
+          <Route path="profile" element={<PharmacistProfile />} />
+        
         </Route>
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
