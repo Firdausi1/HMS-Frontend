@@ -7,7 +7,6 @@ import {
 } from "react-router-dom";
 import DoctorDashboard from "./pages/Dashboard/DoctorDashboard/DoctorDashboard";
 import SinglePatient from "./pages/SinglePatient";
-import Layout from "./layout/Layout";
 import Patients from "./pages/Dashboard/ReceptionistDashboard/Patients";
 import Queue from "./pages/Dashboard/ReceptionistDashboard/Queue";
 import Appointment from "./pages/Dashboard/ReceptionistDashboard/Appointment";
@@ -36,6 +35,8 @@ import AdminLogin from "./pages/Login/AdminLogin";
 import { adminDashboardLinks } from "./layout/AdminNav";
 import Departments from "./pages/Dashboard/Admin/Departments/Departments";
 import AdminProfile from "./pages/Dashboard/Admin/Profile/AdminProfile.jsx";
+import DashboardLayout from "./layout/Layout";
+import Layout from "./pages/Dashboard/ReceptionistDashboard/Layout";
 
 function App() {
   return (
@@ -53,7 +54,11 @@ function App() {
         />
         <Route
           path="/receptionist"
-          element={<PrivateRoute Component={Layout} />}
+          element={
+            <PrivateRoute>
+              <Layout />
+            </PrivateRoute>
+          }
         >
           <Route index element={<ReceptionistDashboard />} />
           {/* Default route */}
@@ -65,7 +70,14 @@ function App() {
             element={<ReceptionistProfile />}
           />
         </Route>
-        <Route path="/nurse" element={<PrivateRoute Component={Layout2} />}>
+        <Route
+          path="/nurse"
+          element={
+            <PrivateRoute>
+              <Layout2 />
+            </PrivateRoute>
+          }
+        >
           <Route index element={<NurseDashboard />} />
           <Route path="patients" element={<Patients2 />} />
           <Route path="vitals" element={<Vitals />} />
@@ -77,7 +89,7 @@ function App() {
           path="/admin"
           element={
             <PrivateRoute>
-              <Layout nav={adminDashboardLinks} />
+              <DashboardLayout nav={adminDashboardLinks} />
             </PrivateRoute>
           }
         >
@@ -88,9 +100,13 @@ function App() {
         </Route>
         <Route
           path="/pharmacist"
-          element={<PrivateRoute Component={Layout3} />}
+          element={
+            <PrivateRoute>
+              <Layout3 />
+            </PrivateRoute>
+          }
         >
-          <Route index element={<PharmacistDashboard />} />{" "}
+          <Route index element={<PharmacistDashboard />} />
           {/* Default route */}
           <Route path="patients" element={<Patients2 />} />
           <Route path="medication" element={<Medication />} />
