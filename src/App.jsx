@@ -5,10 +5,9 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
-import DoctorRegister from "./pages/Register/DoctorRegister";
 import DoctorDashboard from "./pages/Dashboard/DoctorDashboard/DoctorDashboard";
 import SinglePatient from "./pages/SinglePatient";
-import Layout from "./pages/Dashboard/ReceptionistDashboard/Layout";
+import Layout from "./layout/Layout";
 import Patients from "./pages/Dashboard/ReceptionistDashboard/Patients";
 import Queue from "./pages/Dashboard/ReceptionistDashboard/Queue";
 import Appointment from "./pages/Dashboard/ReceptionistDashboard/Appointment";
@@ -31,6 +30,12 @@ import Medication from "./pages/Dashboard/PharmacistDashboard/Medication";
 import Prescription from "./pages/Dashboard/PharmacistDashboard/Prescription";
 import Inventory from "./pages/Dashboard/PharmacistDashboard/Inventory";
 import PharmacistProfile from "./pages/Dashboard/PharmacistDashboard/PharmacistProfile";
+import AdminDashboard from "./pages/Dashboard/Admin/AdminDashboard";
+import Employees from "./pages/Dashboard/Admin/Employees/Employees";
+import AdminLogin from "./pages/Login/AdminLogin";
+import { adminDashboardLinks } from "./layout/AdminNav";
+import Departments from "./pages/Dashboard/Admin/Departments/Departments";
+import AdminProfile from "./pages/Dashboard/Admin/Profile/AdminProfile.jsx";
 
 function App() {
   const { user } = useContext(AuthContext);
@@ -38,8 +43,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Login />} />
-
-        <Route path="/DoctorRegister" element={<DoctorRegister />} />
+        <Route path="/admin_login" element={<AdminLogin />} />
         <Route
           path="/patients/:patientId"
           element={<PrivateRoute Component={SinglePatient} />}
@@ -48,11 +52,6 @@ function App() {
           path="/doctor"
           element={<PrivateRoute Component={DoctorDashboard} />}
         />
-
-        {/* Redirect root to /annedashboard */}
-        {/* <Route path="/receptionist" element={<ReceptionistDashboard />} /> */}
-
-        {/* Dashboard Layout with nested routes */}
         <Route
           path="/receptionist"
           element={<PrivateRoute Component={Layout} />}
@@ -75,14 +74,30 @@ function App() {
           <Route path="add-bed" element={<AddBed />} />
           <Route path="profile" element={<NurseProfile />} />
         </Route>
-        <Route path="/pharmacist" element={<PrivateRoute Component={Layout3} />}>
-          <Route index element={<PharmacistDashboard />} /> {/* Default route */}
+        <Route
+          path="/admin"
+          element={
+            <PrivateRoute>
+              <Layout nav={adminDashboardLinks} />
+            </PrivateRoute>
+          }
+        >
+          {/* <Route index element={<AdminDashboard />} /> */}
+          <Route index path="/admin/employee" element={<Employees />} />
+          <Route path="/admin/department" element={<Departments />} />
+          <Route path="/admin/profile" element={<AdminProfile />} />
+        </Route>
+        <Route
+          path="/pharmacist"
+          element={<PrivateRoute Component={Layout3} />}
+        >
+          <Route index element={<PharmacistDashboard />} />{" "}
+          {/* Default route */}
           <Route path="patients" element={<Patients2 />} />
           <Route path="medication" element={<Medication />} />
           <Route path="prescription" element={<Prescription />} />
           <Route path="inventory" element={<Inventory />} />
           <Route path="profile" element={<PharmacistProfile />} />
-        
         </Route>
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
