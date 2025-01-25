@@ -18,7 +18,8 @@ function Login() {
         email,
         password,
       });
-      if (response.status === 200) {
+      console.log(response);
+      if (response.status === 201) {
         localStorage.setItem("user", JSON.stringify(response.data.data));
         setUser(response.data.data);
         if (response.data.data.role === "Doctor") {
