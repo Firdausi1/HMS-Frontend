@@ -6,11 +6,11 @@ import {
 import { FaUserFriends, FaClipboardList } from "react-icons/fa";
 
 export const adminDashboardLinks = [
-  // {
-  //   name: "Dashboard",
-  //   icon: <AiOutlineDashboard className="mr-3 text-lg" />,
-  //   link: "/admin",
-  // },
+  {
+    name: "Dashboard",
+    icon: <AiOutlineDashboard className="mr-3 text-lg" />,
+    link: "/admin",
+  },
   {
     name: "Employees",
     icon: <FaUserFriends className="mr-3 text-lg" />,

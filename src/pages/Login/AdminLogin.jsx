@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useContext } from "react";
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { postRequest } from "../../api/api";
 import { AuthContext } from "../../context/AuthContext"; // Import the context
@@ -17,15 +18,18 @@ function AdminLogin() {
         email,
         password,
       });
+      console.log(response)
       if (response.status === 200) {
         localStorage.setItem("user", JSON.stringify(response.data.data));
         setUser(response.data.data);
         navigate("/admin/employee");
+        toast.success("Login Successful");
       } else {
         // Handle login error
         console.error("Login failed:", response.statusText);
       }
     } catch (error) {
+      toast.error("Invalid Email or Password");
       console.error("Error during login:", error);
     }
   };

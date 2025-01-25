@@ -6,7 +6,7 @@ function DeleteModal({ close, proceed }) {
     <Modal close={close}>
       <div>
         <h1>Are you sure you want to delete this?</h1>
-        <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+        <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
           <button
             type="button"
             onClick={proceed}
