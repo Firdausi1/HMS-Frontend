@@ -73,7 +73,7 @@ const BedAllotment = () => {
         setAllotments((prevAllotments) =>
           prevAllotments.map((allotment) =>
             allotment._id === currentAllotmentId
-              ? { ...allotment, ...response.data }
+              ? { ...allotment, ...response.data.data }
               : allotment
           )
         );
@@ -84,7 +84,7 @@ const BedAllotment = () => {
           formData
         );
         alert("Bed allotment added successfully!");
-        setAllotments((prevAllotments) => [...prevAllotments, response.data]);
+        setAllotments((prevAllotments) => [...prevAllotments, response.data.data]);
       }
 
       setFormData({

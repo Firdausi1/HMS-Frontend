@@ -57,7 +57,7 @@ const AddBed = () => {
         alert("Bed updated successfully!");
         setBeds((prevBeds) =>
           prevBeds.map((bed) =>
-            bed._id === currentBedId ? { ...bed, ...response.data } : bed
+            bed._id === currentBedId ? { ...bed, ...response.data.data } : bed
           )
         );
       } else {
@@ -67,7 +67,7 @@ const AddBed = () => {
           formData
         );
         alert("Bed added successfully!");
-        setBeds((prevBeds) => [...prevBeds, response.data]);
+        setBeds((prevBeds) => [...prevBeds, response.data.data]);
       }
 
       setFormData({

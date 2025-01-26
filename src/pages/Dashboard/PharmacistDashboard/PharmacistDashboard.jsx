@@ -12,12 +12,15 @@ const PharmacistDashboard = () => {
   // Define API URLs
   const BASE_URL_PATIENTS = "http://localhost:3001/api/patients";
   const BASE_URL_MED = "http://localhost:3001/api/medication";
-  const BASE_URL_BED_ALLOTMENT = "http://localhost:3001/api/bedallotment";
+  const BASE_URL_BED_ALLOTMENT = "http://localhost:3001/api/bedallotment"; //change to prescription
 
-  // State for patients, vitals, and bed allotment
+  // State for patients, vitals, and prescriptions
   const [patients, setPatients] = useState([]);
   const [meds, setMeds] = useState([]);
   const [bedAllotment, setBedAllotment] = useState([]);
+
+  // State for stock totals
+  const [totalQuantity, setTotalQuantity] = useState(0);
 
   // Fetch the data from APIs
   useEffect(() => {
@@ -31,6 +34,9 @@ const PharmacistDashboard = () => {
         // console.log("Vitals Response:", vitalsResponse.data.data);
         setMeds(medResponse.data.data);
 
+        // Calculate total quantity after meds are fetched
+        calculateTotalQuantity(medResponse.data.data);
+
         const bedAllotmentResponse = await axios.get(BASE_URL_BED_ALLOTMENT);
         // console.log("Bed Allotment Response:", bedAllotmentResponse.data.data);
         setBedAllotment(bedAllotmentResponse.data.data);
@@ -41,6 +47,15 @@ const PharmacistDashboard = () => {
 
     fetchData();
   }, []);
+
+  // Calculate total quantity for medications
+  const calculateTotalQuantity = (medications) => {
+    let quantity = 0;
+    medications.forEach((med) => {
+      quantity += parseInt(med.quantity, 10); // Ensure quantity is a number
+    });
+    setTotalQuantity(quantity);
+  };
 
   return (
     <div className="flex min-h-screen bg-gray-100 px-8">
@@ -113,7 +128,7 @@ const PharmacistDashboard = () => {
             />
             <div className="absolute top-3 left-3 text-blue-700">
               {" "}
-              <span className="text-4xl font-bold">300</span>
+              <span className="text-4xl font-bold">{totalQuantity}</span>
               <h3 className="text-xl font-bold">Inventory</h3>
             </div>
           </div>
