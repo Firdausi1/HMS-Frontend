@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 const BedAllotment = () => {
   const BASE_URL_ALLOTMENT = "http://localhost:3001/api/bedallotment";
@@ -69,7 +70,8 @@ const BedAllotment = () => {
           `${BASE_URL_ALLOTMENT}/${currentAllotmentId}`,
           formData
         );
-        alert("Bed allotment updated successfully!");
+        // alert("Bed allotment updated successfully!");
+        toast.success("Bed allotment updated successfully!");
         setAllotments((prevAllotments) =>
           prevAllotments.map((allotment) =>
             allotment._id === currentAllotmentId
@@ -83,7 +85,8 @@ const BedAllotment = () => {
           `${BASE_URL_ALLOTMENT}/allot`,
           formData
         );
-        alert("Bed allotment added successfully!");
+        // alert("Bed allotment added successfully!");
+        toast.success("Bed allotment added successfully!");
         setAllotments((prevAllotments) => [...prevAllotments, response.data.data]);
       }
 
@@ -98,7 +101,8 @@ const BedAllotment = () => {
       setShowForm(false);
     } catch (error) {
       console.error("Error saving bed allotment:", error);
-      alert("Failed to save bed allotment.");
+      // alert("Failed to save bed allotment.");
+      toast.error( "Failed to save bed allotment.");
     }
   };
 
@@ -119,10 +123,12 @@ const BedAllotment = () => {
     try {
       await axios.delete(`${BASE_URL_ALLOTMENT}/${id}`);
       setAllotments(allotments.filter((allotment) => allotment._id !== id));
-      alert("Bed allotment deleted successfully!");
+      // alert("Bed allotment deleted successfully!");
+      toast.success("Bed allotment deleted successfully!");
     } catch (error) {
       console.error("Error deleting bed allotment:", error);
-      alert("Failed to delete bed allotment.");
+      // alert("Failed to delete bed allotment.");
+      toast.error( "Failed to delete bed allotment.");
     }
   };
   return (
