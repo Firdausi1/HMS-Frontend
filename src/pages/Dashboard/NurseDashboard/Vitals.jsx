@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 const Vitals = () => {
   const BASE_URL_VITALS = "http://localhost:3001/api/vitals";
@@ -68,44 +69,7 @@ const Vitals = () => {
     }
   };
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-
-  //   // Validate form data
-  //   const newErrors = {};
-  //   if (!formData.patientId) newErrors.patientId = "Patient ID is required.";
-  //   if (!formData.bloodPressure.systolic || !formData.bloodPressure.diastolic)
-  //     newErrors.bloodPressure =
-  //       "Both systolic and diastolic values are required.";
-  //   if (!formData.heartRate) newErrors.heartRate = "Heart rate is required.";
-  //   if (!formData.temperature)
-  //     newErrors.temperature = "Temperature is required.";
-  //   if (!formData.respiratoryRate)
-  //     newErrors.respiratoryRate = "Respiratory rate is required.";
-
-  //   if (Object.keys(newErrors).length > 0) {
-  //     setErrors(newErrors);
-  //     return;
-  //   }
-
-  //   try {
-  //     const response = await axios.post(`${BASE_URL_VITALS}/add_vitals`, formData);
-  //     alert("Vitals added successfully!");
-  //     setFormData({
-  //       patientId: "",
-  //       bloodPressure: { systolic: "", diastolic: "" },
-  //       heartRate: "",
-  //       temperature: "",
-  //       respiratoryRate: "",
-  //       oxygenSaturation: "",
-  //       notes: "",
-  //     });
-  //     setVitals([...vitals, response.data.data]);
-  //   } catch (error) {
-  //     console.error("Error adding vitals:", error);
-  //     alert("Failed to add vitals.");
-  //   }
-  // };
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -129,7 +93,8 @@ const Vitals = () => {
       if (editing) {
         // If we're editing, send a PUT request
         const response = await axios.put(`${BASE_URL_VITALS}/${currentVitalId}`, formData);
-        alert("Vitals updated successfully!");
+        // alert("Vitals updated successfully!");
+        toast.success( "Vitals updated successfully!");
     
         // Update the vitals state immediately after the update
         setVitals((prevVitals) =>
@@ -140,7 +105,8 @@ const Vitals = () => {
       } else {
         // If we're adding, send a POST request
         const response = await axios.post(`${BASE_URL_VITALS}/add_vitals`, formData);
-        alert("Vitals added successfully!");
+        // alert("Vitals added successfully!");
+        toast.success( "Vitals added successfully!");
     
         // Add the new vital signs to the vitals list
       setVitals((prevVitals) => [...prevVitals, response.data.data]);
@@ -161,7 +127,8 @@ const Vitals = () => {
       setShowForm(false);
     } catch (error) {
       console.error("Error adding/updating vitals:", error);
-      alert("Failed to save vitals.");
+      // alert("Failed to save vitals.");
+      toast.error( "Failed to save vitals.");
     }
     
   };
@@ -189,10 +156,12 @@ const Vitals = () => {
     try {
       await axios.delete(`${BASE_URL_VITALS}/${id}`);
       setVitals(vitals.filter((vital) => vital._id !== id)); // Remove deleted vital from the list
-      alert("Vitals deleted successfully!");
+      // alert("Vitals deleted successfully!");
+      toast.success( "Vitals deleted successfully!");
     } catch (error) {
       console.error("Error deleting vitals:", error);
-      alert("Failed to delete vitals.");
+      // alert("Failed to delete vitals.");
+      toast.error( "Failed to delete vitals.");
     }
   };
 
