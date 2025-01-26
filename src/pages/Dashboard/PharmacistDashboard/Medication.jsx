@@ -176,7 +176,7 @@ const Medication = () => {
                   Price
                 </th>
                 <th className="px-4 py-2 border bg-blue-600 text-white">
-                  Status
+                  Status of Medication
                 </th>
                 <th className="px-4 py-2 border bg-blue-600 text-white">
                   Options
