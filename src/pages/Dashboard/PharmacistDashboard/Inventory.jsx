@@ -52,7 +52,7 @@ const Inventory = () => {
       {/* Display Low Stock Alerts */}
       {lowStockMedications.length > 0 && (
         <div className="bg-yellow-100 p-4 mb-4 border-l-4 border-yellow-500 text-yellow-700">
-          <h3 className="font-bold">Low Stock Alert</h3>
+          <h3 className="font-bold mb-3">Low Stock Alert</h3>
           <ul>
             {lowStockMedications.map((med) => (
               <li key={med._id}>{med.name} (Quantity: {med.quantity}) is below the threshold!</li>

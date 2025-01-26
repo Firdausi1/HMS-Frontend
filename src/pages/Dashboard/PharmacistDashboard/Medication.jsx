@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 const Medication = () => {
   const BASE_URL_MEDICATION = "http://localhost:3001/api/medication";
@@ -57,8 +58,8 @@ const Medication = () => {
           `${BASE_URL_MEDICATION}/update/${currentMedicationId}`,
           formData
         );
-        alert("Medication updated successfully!");
-  
+        // alert("Medication updated successfully!");
+        toast.success("Medication updated successfully!");
         // Update medications state immediately after successful update
         setMedications((prevMedications) =>
           prevMedications.map((med) =>
@@ -71,7 +72,8 @@ const Medication = () => {
           `${BASE_URL_MEDICATION}/add_medicine`,
           formData
         );
-        alert("Medication added successfully!");
+        // alert("Medication added successfully!");
+        toast.success("Medication added successfully!");
   
         // Add new medication to state immediately
         setMedications((prevMedications) => [...prevMedications, response.data.data]);
@@ -90,7 +92,8 @@ const Medication = () => {
       setShowForm(false);
     } catch (error) {
       console.error("Error saving medication:", error);
-      alert("Failed to save medication.");
+      // alert("Failed to save medication.");
+      toast.error("Failed to save medication.");
     }
   };
   
@@ -116,10 +119,12 @@ const Medication = () => {
       setMedications((prevMedications) =>
         prevMedications.filter((med) => med._id !== id)
       );
-      alert("Medication deleted successfully!");
+      // alert("Medication deleted successfully!");
+      toast.success("Medication deleted successfully!");
     } catch (error) {
       console.error("Error deleting medication:", error);
-      alert("Failed to delete medication.");
+      // alert("Failed to delete medication.");
+      toast.error("Failed to delete medication.");
     }
   };
 
