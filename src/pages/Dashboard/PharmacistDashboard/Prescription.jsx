@@ -213,7 +213,7 @@ const Prescription = () => {
             <textarea
               value={newNotes}
               onChange={(e) => setNewNotes(e.target.value)}
-              className="w-full p-2 border border-gray-300 rounded-md"
+              className="w-full p-2 border border-gray-300 rounded-md outline-none"
               rows="4"
               placeholder="Enter new dosage notes"
             />
