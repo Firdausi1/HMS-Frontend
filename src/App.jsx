@@ -111,6 +111,7 @@ function App() {
           <Route index element={<PharmacistDashboard />} />
           {/* Default route */}
           <Route path="patients" element={<Patients2 />} />
+          <Route path="queuedpatients" element={<QueuedPatients />} />
           <Route path="medication" element={<Medication />} />
           <Route path="prescription" element={<Prescription />} />
           <Route path="inventory" element={<Inventory />} />
