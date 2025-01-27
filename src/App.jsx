@@ -37,6 +37,7 @@ import Departments from "./pages/Dashboard/Admin/Departments/Departments";
 import AdminProfile from "./pages/Dashboard/Admin/Profile/AdminProfile.jsx";
 import DashboardLayout from "./layout/Layout";
 import Layout from "./pages/Dashboard/ReceptionistDashboard/Layout";
+import QueuedPatients from "./pages/Dashboard/NurseDashboard/QueuedPatients.jsx";
 
 function App() {
   return (
@@ -80,6 +81,7 @@ function App() {
         >
           <Route index element={<NurseDashboard />} />
           <Route path="patients" element={<Patients2 />} />
+          <Route path="queuedpatients" element={<QueuedPatients />} />
           <Route path="vitals" element={<Vitals />} />
           <Route path="bed-allotment" element={<BedAllotment />} />
           <Route path="add-bed" element={<AddBed />} />

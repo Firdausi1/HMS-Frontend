@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 
 const Vitals = () => {
   const BASE_URL_VITALS = "http://localhost:3001/api/vitals";
-  const BASE_URL_PATIENTS = "http://localhost:3001/api/patients";
+  const BASE_URL_QUEUEDPATIENTS = "http://localhost:3001/api/queue";;
   const [vitals, setVitals] = useState([]);
   const [patients, setPatients] = useState([]);
   const [formData, setFormData] = useState({
@@ -35,7 +35,7 @@ const Vitals = () => {
 
     const fetchPatients = async () => {
       try {
-        const response = await axios.get(BASE_URL_PATIENTS);
+        const response = await axios.get(BASE_URL_QUEUEDPATIENTS);
         // console.log("this is the patient data:", response.data)
         setPatients(response.data); // Assuming the API returns an array of patients
       } catch (error) {
@@ -255,7 +255,7 @@ const Vitals = () => {
                   <option value="">Select a patient</option>
                   {patients.map((patient) => (
                     <option key={patient._id} value={patient._id}>
-                      {patient.name}
+                      {patient.patient.name}
                     </option>
                   ))}
                 </select>
