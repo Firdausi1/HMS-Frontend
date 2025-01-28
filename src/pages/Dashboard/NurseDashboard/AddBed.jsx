@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 const AddBed = () => {
   const BASE_URL_BEDS = "http://localhost:3001/api/bed";
@@ -57,7 +58,7 @@ const AddBed = () => {
         alert("Bed updated successfully!");
         setBeds((prevBeds) =>
           prevBeds.map((bed) =>
-            bed._id === currentBedId ? { ...bed, ...response.data } : bed
+            bed._id === currentBedId ? { ...bed, ...response.data.data } : bed
           )
         );
       } else {
@@ -66,8 +67,9 @@ const AddBed = () => {
           `${BASE_URL_BEDS}/add_beds`,
           formData
         );
-        alert("Bed added successfully!");
-        setBeds((prevBeds) => [...prevBeds, response.data]);
+        // alert("Bed added successfully!");
+        toast.success("Bed added successfully!")
+        setBeds((prevBeds) => [...prevBeds, response.data.data]);
       }
 
       setFormData({
@@ -81,7 +83,8 @@ const AddBed = () => {
       setShowForm(false);
     } catch (error) {
       console.error("Error adding/updating bed:", error);
-      alert("Failed to save bed.");
+      // alert("Failed to save bed.");
+      toast.error("Failed to save bed.");
     }
   };
 
@@ -102,10 +105,12 @@ const AddBed = () => {
     try {
       await axios.delete(`${BASE_URL_BEDS}/${id}`);
       setBeds(beds.filter((bed) => bed._id !== id));
-      alert("Bed deleted successfully!");
+      // alert("Bed deleted successfully!");
+      toast.success("Bed deleted successfully!")
     } catch (error) {
       console.error("Error deleting bed:", error);
-      alert("Failed to delete bed.");
+      // alert("Failed to delete bed.");
+      toast.error( "Failed to delete bed.");
     }
   };
   return (

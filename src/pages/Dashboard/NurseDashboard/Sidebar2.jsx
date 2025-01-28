@@ -41,6 +41,20 @@ const Sidebar2 = () => {
       </NavLink>
 
       <NavLink
+        to="/nurse/queuedpatients"
+        className={({ isActive }) =>
+          `flex items-center px-6 py-3 rounded-lg text-sm font-medium ${
+            isActive
+              ? "bg-blue-700 text-white"
+              : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+          }`
+        }
+      >
+        <FaUserFriends className="mr-3 text-lg" />
+        Queued Patients
+      </NavLink>
+
+      <NavLink
         to="/nurse/vitals"
         className={({ isActive }) =>
           `flex items-center px-6 py-3 rounded-lg text-sm font-medium ${

@@ -3,26 +3,43 @@ import React, { useEffect, useState } from "react";
 
 const Patients2 = () => {
   const [patients, setPatients] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
 
-  const BASE_URL_PATIENTS = "http://localhost:3001/api/patients";
+  const BASE_URL_PATIENTS = "http://localhost:3001/api/patients/search";
+
+  // Function to fetch patients
+  const fetchPatients = async (searchQuery = "") => {
+    try {
+      const response = await axios.get(BASE_URL_PATIENTS, {
+        params: { name: searchQuery }, // Send the name query parameter if available
+      });
+      setPatients(response.data);
+    } catch (error) {
+      console.error("Error fetching patients:", error);
+    }
+  };
 
   useEffect(() => {
-    const fetchPatients = async () => {
-      try {
-        const response = await axios.get(BASE_URL_PATIENTS);
-        // console.log("Fetched patients:", response.data); // Display fetched data in console
-        setPatients(response.data);
-      } catch (error) {
-        console.error("Error fetching patients:", error);
-      }
-    };
-
-    fetchPatients();
+    fetchPatients(); // Fetch all patients on initial load
   }, []);
+
+  useEffect(() => {
+    fetchPatients(searchTerm); // Fetch patients based on search term
+  }, [searchTerm]);
+
   return (
     <div className="p-6">
-      {/* Patient List */}
-      <h2 className="text-lg font-bold text-gray-700 mb-4">Patient List</h2>
+      <div className="flex justify-between">
+        <h2 className="text-lg font-bold text-gray-700 mb-4">Patient List</h2>
+        <input
+        type="text"
+        placeholder="Search by name"
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        className="mb-4 p-2 border border-gray-300 rounded w-96 outline-none"
+      />
+      </div>
+      
       <table className="table-auto w-full border-collapse border border-gray-300 text-sm">
         <thead>
           <tr>
