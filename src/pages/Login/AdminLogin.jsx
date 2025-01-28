@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { postRequest } from "../../api/api";
 import { AuthContext } from "../../context/AuthContext"; // Import the context
 
-function Login() {
+function AdminLogin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate(); // Hook for navigation
@@ -14,25 +14,15 @@ function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await postRequest("employee/login", {
+      const response = await postRequest("admin/login", {
         email,
         password,
       });
-      console.log(response);
-      if (response.status === 201) {
+      console.log(response)
+      if (response.status === 200) {
         localStorage.setItem("user", JSON.stringify(response.data.data));
         setUser(response.data.data);
-        if (response.data.data.role === "Doctor") {
-          navigate("/doctor");
-        } else if (response.data.data.role === "Receptionist") {
-          navigate("/receptionist");
-        } else if (response.data.data.role === "Nurse") {
-          navigate("/nurse");
-        } else if (response.data.data.role === "Pharmacist") {
-          navigate("/pharmacist");
-        } else if (response.data.data.role === "Accountant") {
-          navigate("/accountant");
-        }
+        navigate("/admin/employee");
         toast.success("Login Successful");
       } else {
         // Handle login error
@@ -98,4 +88,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default AdminLogin;
