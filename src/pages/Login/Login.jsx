@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useContext } from "react";
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { postRequest } from "../../api/api";
 import { AuthContext } from "../../context/AuthContext"; // Import the context
@@ -17,7 +18,8 @@ function Login() {
         email,
         password,
       });
-      if (response.status === 200) {
+      console.log(response);
+      if (response.status === 201) {
         localStorage.setItem("user", JSON.stringify(response.data.data));
         setUser(response.data.data);
         if (response.data.data.role === "Doctor") {
@@ -31,10 +33,12 @@ function Login() {
         } else if (response.data.data.role === "Accountant") {
           navigate("/accountant");
         }
+        toast.success("Login Successful");
       } else {
         console.error("Login failed:", response.statusText);
       }
     } catch (error) {
+      toast.error("Invalid Email or Password");
       console.error("Error during login:", error);
     }
   };

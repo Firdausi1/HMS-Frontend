@@ -1,24 +1,26 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
+import React from "react";
+import { NavLink } from "react-router-dom";
 import {
   AiOutlineDashboard,
   AiOutlineUserAdd,
-  AiOutlineSchedule
-} from 'react-icons/ai';
-import { FaUserFriends, FaClipboardList } from 'react-icons/fa';
+} from "react-icons/ai";
+import { FaUserFriends, FaBed } from "react-icons/fa";
+import { GiMedicines } from "react-icons/gi";
+import { MdInventory2 } from "react-icons/md";
+import { LiaPrescriptionBottleSolid } from "react-icons/lia";
 
-const SideBar = () => {
+const Sidebar3 = () => {
   return (
     <div className="gap-4 p-6 flex flex-col mt-6 bg-white shadow-md">
       {/* Sidebar Section */}
 
       <NavLink
-        to="/receptionist"
+        to="/pharmacist"
         className={({ isActive }) =>
           `flex items-center px-6 py-3 rounded-lg text-sm font-medium ${
             isActive
-              ? 'bg-blue-700 text-white'
-              : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+              ? "bg-blue-700 text-white"
+              : "bg-gray-200 text-gray-700 hover:bg-gray-300"
           }`
         }
       >
@@ -27,12 +29,12 @@ const SideBar = () => {
       </NavLink>
 
       <NavLink
-        to="/receptionist/patients"
+        to="/pharmacist/patients"
         className={({ isActive }) =>
           `flex items-center px-6 py-3 rounded-lg text-sm font-medium ${
             isActive
-              ? 'bg-blue-700 text-white'
-              : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+              ? "bg-blue-700 text-white"
+              : "bg-gray-200 text-gray-700 hover:bg-gray-300"
           }`
         }
       >
@@ -41,54 +43,54 @@ const SideBar = () => {
       </NavLink>
 
       <NavLink
-        to="/receptionist/nurse-queue"
+        to="/pharmacist/medication"
         className={({ isActive }) =>
           `flex items-center px-6 py-3 rounded-lg text-sm font-medium ${
             isActive
-              ? 'bg-blue-700 text-white'
-              : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+              ? "bg-blue-700 text-white"
+              : "bg-gray-200 text-gray-700 hover:bg-gray-300"
           }`
         }
       >
-      <FaClipboardList className="mr-3 text-lg" />
-        Nurse Queue
+        <GiMedicines className="mr-3 text-lg" />
+        Medication
       </NavLink>
 
       <NavLink
-        to="/receptionist/doctor-queue"
+        to="/pharmacist/prescription"
         className={({ isActive }) =>
           `flex items-center px-6 py-3 rounded-lg text-sm font-medium ${
             isActive
-              ? 'bg-blue-700 text-white'
-              : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+              ? "bg-blue-700 text-white"
+              : "bg-gray-200 text-gray-700 hover:bg-gray-300"
           }`
         }
       >
-      <FaClipboardList className="mr-3 text-lg" />
-        Doctor Queue
+        <LiaPrescriptionBottleSolid className="mr-3 text-lg" />
+        Prescription
       </NavLink>
 
       <NavLink
-        to="/receptionist/appointment-list"
+        to="/pharmacist/inventory"
         className={({ isActive }) =>
           `flex items-center px-6 py-3 rounded-lg text-sm font-medium ${
             isActive
-              ? 'bg-blue-700 text-white'
-              : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+              ? "bg-blue-700 text-white"
+              : "bg-gray-200 text-gray-700 hover:bg-gray-300"
           }`
         }
       >
-        <AiOutlineSchedule className="mr-3 text-lg" />
-        Appointments
+        <MdInventory2 className="mr-3 text-lg" />
+        Inventory
       </NavLink>
-
+      
       <NavLink
-        to="/receptionist/receptionist-profile"
+        to="/pharmacist/profile"
         className={({ isActive }) =>
           `flex items-center px-6 py-3 rounded-lg text-sm font-medium ${
             isActive
-              ? 'bg-blue-700 text-white'
-              : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+              ? "bg-blue-700 text-white"
+              : "bg-gray-200 text-gray-700 hover:bg-gray-300"
           }`
         }
       >
@@ -99,8 +101,4 @@ const SideBar = () => {
   );
 };
 
-export default SideBar;
-
-
-
-
+export default Sidebar3;

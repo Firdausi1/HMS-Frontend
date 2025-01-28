@@ -1,24 +1,24 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
+import React from "react";
+import { NavLink } from "react-router-dom";
 import {
   AiOutlineDashboard,
   AiOutlineUserAdd,
-  AiOutlineSchedule
-} from 'react-icons/ai';
-import { FaUserFriends, FaClipboardList } from 'react-icons/fa';
+} from "react-icons/ai";
+import { FaUserFriends, FaClipboardList, FaBed } from "react-icons/fa";
+import { IoBedOutline } from "react-icons/io5";
 
-const SideBar = () => {
+const Sidebar2 = () => {
   return (
     <div className="gap-4 p-6 flex flex-col mt-6 bg-white shadow-md">
       {/* Sidebar Section */}
 
       <NavLink
-        to="/receptionist"
+        to="/nurse"
         className={({ isActive }) =>
           `flex items-center px-6 py-3 rounded-lg text-sm font-medium ${
             isActive
-              ? 'bg-blue-700 text-white'
-              : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+              ? "bg-blue-700 text-white"
+              : "bg-gray-200 text-gray-700 hover:bg-gray-300"
           }`
         }
       >
@@ -27,12 +27,12 @@ const SideBar = () => {
       </NavLink>
 
       <NavLink
-        to="/receptionist/patients"
+        to="/nurse/patients"
         className={({ isActive }) =>
           `flex items-center px-6 py-3 rounded-lg text-sm font-medium ${
             isActive
-              ? 'bg-blue-700 text-white'
-              : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+              ? "bg-blue-700 text-white"
+              : "bg-gray-200 text-gray-700 hover:bg-gray-300"
           }`
         }
       >
@@ -41,54 +41,54 @@ const SideBar = () => {
       </NavLink>
 
       <NavLink
-        to="/receptionist/nurse-queue"
+        to="/nurse/vitals"
         className={({ isActive }) =>
           `flex items-center px-6 py-3 rounded-lg text-sm font-medium ${
             isActive
-              ? 'bg-blue-700 text-white'
-              : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+              ? "bg-blue-700 text-white"
+              : "bg-gray-200 text-gray-700 hover:bg-gray-300"
           }`
         }
       >
-      <FaClipboardList className="mr-3 text-lg" />
-        Nurse Queue
+        <FaClipboardList className="mr-3 text-lg" />
+        Vitals
       </NavLink>
 
       <NavLink
-        to="/receptionist/doctor-queue"
+        to="/nurse/bed-allotment"
         className={({ isActive }) =>
           `flex items-center px-6 py-3 rounded-lg text-sm font-medium ${
             isActive
-              ? 'bg-blue-700 text-white'
-              : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+              ? "bg-blue-700 text-white"
+              : "bg-gray-200 text-gray-700 hover:bg-gray-300"
           }`
         }
       >
-      <FaClipboardList className="mr-3 text-lg" />
-        Doctor Queue
+        <FaBed className="mr-3 text-lg" />
+        Bed Allotment
       </NavLink>
 
       <NavLink
-        to="/receptionist/appointment-list"
+        to="/nurse/add-bed"
         className={({ isActive }) =>
           `flex items-center px-6 py-3 rounded-lg text-sm font-medium ${
             isActive
-              ? 'bg-blue-700 text-white'
-              : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+              ? "bg-blue-700 text-white"
+              : "bg-gray-200 text-gray-700 hover:bg-gray-300"
           }`
         }
       >
-        <AiOutlineSchedule className="mr-3 text-lg" />
-        Appointments
+        <IoBedOutline className="mr-3 text-lg" />
+        Add Bed
       </NavLink>
-
+      
       <NavLink
-        to="/receptionist/receptionist-profile"
+        to="/nurse/profile"
         className={({ isActive }) =>
           `flex items-center px-6 py-3 rounded-lg text-sm font-medium ${
             isActive
-              ? 'bg-blue-700 text-white'
-              : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+              ? "bg-blue-700 text-white"
+              : "bg-gray-200 text-gray-700 hover:bg-gray-300"
           }`
         }
       >
@@ -99,8 +99,4 @@ const SideBar = () => {
   );
 };
 
-export default SideBar;
-
-
-
-
+export default Sidebar2;

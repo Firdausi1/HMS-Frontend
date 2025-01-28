@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "../../../context/AuthContext";
 import { putRequest } from "../../../api/api";
 
-const ReceptionistProfile = () => {
+const NurseProfile = () => {
   const [isEditable, setIsEditable] = useState(false); // Track if the form is in editable mode
   const { user, setUser } = useContext(AuthContext);
   const [formData, setFormData] = useState({
@@ -67,13 +66,10 @@ const ReceptionistProfile = () => {
     }
 
     try {
-      const response = await axios.put(
-        `employee/update_password/${user.id}`,
-        {
-          oldPassword: passwordData.oldPassword,
-          newPassword: passwordData.newPassword,
-        }
-      );
+      const response = await axios.put(`employee/update_password/${user.id}`, {
+        oldPassword: passwordData.oldPassword,
+        newPassword: passwordData.newPassword,
+      });
       console.log("Password changed:", response.data);
       alert("Password changed!"); // Show success alert
     } catch (error) {
@@ -264,4 +260,4 @@ const ReceptionistProfile = () => {
   );
 };
 
-export default ReceptionistProfile;
+export default NurseProfile;

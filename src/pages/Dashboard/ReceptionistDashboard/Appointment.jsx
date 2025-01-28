@@ -50,7 +50,7 @@ const Appointment = () => {
   }, []);
 
 
-const validateForm = () => {
+  const validateForm = () => {
     const errors = {};
     if (!selectedPatientId) errors.selectedPatientId = "Patient is required.";
     if (!doctorName) errors.doctorName = "Doctor name is required.";
@@ -65,6 +65,54 @@ const validateForm = () => {
     const options = { year: "numeric", month: "long", day: "numeric" };
     return new Date(date).toLocaleDateString(undefined, options);
   };
+
+  // const handleCreateAppointment = async (e) => {
+  //   e.preventDefault();
+
+  //   // Validation
+  //   if (!validateForm()) return;
+
+  //   // Check if the selected time is already taken for the selected doctor and date
+  //   const isTimeTaken = appointments.some(
+  //     (appointment) =>
+  //       appointment.doctorName === doctorName &&
+  //       appointment.date === date &&
+  //       appointment.time === time
+  //   );
+
+  //   if (isTimeTaken) {
+  //     alert("This time slot is already booked for this doctor. Please choose another time.");
+  //     return; // Prevent appointment creation if time is taken
+  //   }
+
+  //   const appointmentData = {
+  //     patientId: selectedPatientId,
+  //     doctorName,
+  //     date,
+  //     time,
+  //   };
+
+  //   try {
+  //     const response = await axios.post(
+  //       "http://localhost:3001/api/appointment/new",
+  //       appointmentData
+  //     );
+
+  //     // After creating the appointment, reset the form
+  //     setAppointments((prev) => [...prev, response.data.appointment]);
+
+  //     alert("Appointment created successfully!");
+
+  //     // Reset form state after successful submission
+  //     setSelectedPatientName(""); // Reset patient selection
+  //     setSelectedPatientId(""); // Reset patient ID
+  //     setDoctorName(""); // Reset doctor name
+  //     setDate(""); // Reset date
+  //     setTime(""); // Reset time
+  //   } catch (error) {
+  //     alert("Failed to create appointment.");
+  //   }
+  // };
 
   const handleCreateAppointment = async (e) => {
     e.preventDefault();
@@ -85,7 +133,7 @@ const validateForm = () => {
         appointmentData
       );
 
-      // After creating the appointment, reset the form
+      // If the appointment was created successfully
       setAppointments((prev) => [...prev, response.data.appointment]);
 
       alert("Appointment created successfully!");
@@ -97,9 +145,16 @@ const validateForm = () => {
       setDate(""); // Reset date
       setTime(""); // Reset time
     } catch (error) {
-      alert("Failed to create appointment.");
+      // Handle backend validation error
+      if (error.response && error.response.data.message) {
+        alert(error.response.data.message);  // Show specific error message (e.g., "Appointment already exists")
+      } else {
+        alert("Failed to create appointment.");
+      }
     }
   };
+
+
 
   const handleDelete = async (appointmentId) => {
     try {
@@ -270,3 +325,4 @@ const validateForm = () => {
 };
 
 export default Appointment;
+
