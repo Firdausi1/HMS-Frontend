@@ -32,7 +32,6 @@ function Login() {
           navigate("/accountant");
         }
       } else {
-        // Handle login error
         console.error("Login failed:", response.statusText);
       }
     } catch (error) {
@@ -41,57 +40,62 @@ function Login() {
   };
 
   return (
-    <div className="flex items-center justify-center h-screen bg-gradient-to-r from-blue-500 to-blue-300">
-      <form
-        className="bg-white p-10 rounded-lg shadow-lg w-96"
-        onSubmit={handleLogin}
-      >
-        <h2 className="text-3xl mb-6 text-center text-gray-800 font-semibold">
-          Login
-        </h2>
-        <div className="mb-4">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="email"
+    <div
+      className="flex items-center justify-center h-screen bg-cover bg-center"
+      style={{
+        backgroundImage: 'url("https://img.freepik.com/free-photo/portrait-happy-african-american-woman-surgeon-standing-operating-room-ready-work-patient-female-medical-worker-surgical-uniform-operation-theater_657921-38.jpg?ga=GA1.1.1223372785.1726203975")',
+      }}
+    >
+      <div className="relative bg-white bg-opacity-20 backdrop-blur-md rounded-2xl shadow-xl px-8 w-96 pb-6 z-10 mt-[190px] border border-gray-200">
+        <h1 className="text-2xl font-bold text-center text-white mb-6">
+          HOSPITAL MANAGEMENT SYSTEM
+        </h1>
+        <form onSubmit={handleLogin}>
+          <div className="mb-4">
+            <label
+              className="block text-white text-sm font-bold mb-2"
+              htmlFor="email"
+            >
+              Email
+            </label>
+            <input
+              type="email"
+              id="email"
+              placeholder="Enter your email"
+              className="bg-white bg-opacity-30 border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-opacity-50"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+          <div className="mb-6">
+            <label
+              className="block text-white text-sm font-bold mb-2"
+              htmlFor="password"
+            >
+              Password
+            </label>
+            <input
+              type="password"
+              id="password"
+              placeholder="Enter your password"
+              className="bg-white bg-opacity-30 border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-opacity-50"
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
+          <button
+            type="submit"
+            className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg w-full transition duration-200 shadow-md"
           >
-            Email
-          </label>
-          <input
-            type="email"
-            id="email"
-            placeholder="Enter your email"
-            className="shadow-md appearance-none border border-gray-300 rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500"
-            required
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
-        <div className="mb-6">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="password"
-          >
-            Password
-          </label>
-          <input
-            type="password"
-            id="password"
-            placeholder="Enter your password"
-            className="shadow-md appearance-none border border-gray-300 rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500"
-            required
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-        <button
-          type="submit"
-          className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full transition duration-200"
-        >
-          Login
-        </button>
-      </form>
+            Login
+          </button>
+        </form>
+      </div>
     </div>
   );
 }
 
 export default Login;
+

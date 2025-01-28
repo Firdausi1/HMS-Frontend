@@ -8,26 +8,30 @@ import { AuthContext } from "../../../context/AuthContext";
 const ReceptionistDashboard = () => {
   const [patientsCount, setPatientsCount] = useState([]);
   const [queueCount, setQueueCount] = useState([]);
+  const [appointmentCount, setAppointmentsCount] = useState([]);
   const [loading, setLoading] = useState(true);
   const { logout } = useContext(AuthContext);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [patientsResp, queueResp] = await Promise.all([
+        const [patientsResp, queueResp, appointmentsResp] = await Promise.all([
           axios.get("http://localhost:3001/api/patients"),
           axios.get("http://localhost:3001/api/queue"),
+          axios.get("http://localhost:3001/api/appointment"),
         ]);
 
         // Log entire responses for debugging
         console.log("Patients Response:", patientsResp);
         console.log("Queue Response:", queueResp);
+        console.log("Queue Response:", appointmentsResp);
 
         // Check if the response data is an array and assign accordingly
         setPatientsCount(
           Array.isArray(patientsResp.data) ? patientsResp.data : []
         );
         setQueueCount(Array.isArray(queueResp.data) ? queueResp.data : []);
+        setAppointmentsCount(Array.isArray(appointmentsResp.data) ? appointmentsResp.data : []);
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
@@ -64,7 +68,7 @@ const ReceptionistDashboard = () => {
         </header>
 
         {/* Stats Section */}
-        <section className="grid grid-cols-4 gap-6 mb-8">
+        <section className="grid grid-cols-3 gap-6 mb-8">
           <div className="relative bg-white shadow-md rounded-lg overflow-hidden">
             <img
               src="https://img.freepik.com/free-photo/african-american-therapist-doctor-explaining-radiography-expertise-sick-woman-discussing-healthcare-treatment-medical-appointment-hospital-ward-patient-with-neck-cervical-collar_482257-33623.jpg?ga=GA1.1.1223372785.1726203975&semt=ais_hybrid"
@@ -72,10 +76,10 @@ const ReceptionistDashboard = () => {
               className="w-full h-56 object-cover brightness-110"
             />
             <div className="absolute top-3 left-3">
-              <h3 className="text-xl font-bold text-black shadow-md">
+              <h3 className="text-2xl font-bold text-purple-700 shadow-md">
                 Patients
               </h3>
-              <span className="text-4xl font-bold text-purple-500 shadow-md">
+              <span className="text-4xl font-bold text-purple-700 shadow-md">
                 {patientsCount?.length}
               </span>
             </div>
@@ -88,8 +92,8 @@ const ReceptionistDashboard = () => {
               className="w-full h-56 object-cover brightness-110"
             />
             <div className="absolute top-3 right-3">
-              <h3 className="text-xl font-bold text-black shadow-md">Queue</h3>
-              <span className="text-4xl font-bold text-purple-500 shadow-md ml-6">
+              <h3 className="text-2xl font-bold text-purple-700 shadow-md">Queue</h3>
+              <span className="text-4xl font-bold text-purple-700 shadow-md ml-6">
                 {queueCount?.length}
               </span>
             </div>
@@ -102,12 +106,15 @@ const ReceptionistDashboard = () => {
               className="w-full h-56 object-cover brightness-110"
             />
             <div className="absolute top-3 left-3">
-              <h3 className="text-xl font-bold text-white shadow-md">
+              <h3 className="text-2xl font-bold text-purple-700 shadow-md">
                 Appointments
               </h3>
-              <span className="text-4xl font-bold text-purple-500 shadow-md">
-                4
+              <span className="text-4xl font-bold text-purple-700 shadow-md ml-6">
+                {appointmentCount?.length}
               </span>
+              {/* <span className="text-4xl font-bold text-purple-500 shadow-md">
+                4
+              </span> */}
             </div>
           </div>
         </section>
