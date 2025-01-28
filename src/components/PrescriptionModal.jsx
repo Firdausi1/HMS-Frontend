@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
-const PrescriptionModal = ({ isOpen, onClose }) => {
-    const [patient, setPatient] = useState('');
+const PrescriptionModal = ({ isOpen, onClose, patientName }) => {
+    const [patient, setPatient] = useState(patientName);
     const [caseHistory, setCaseHistory] = useState('');
     const [ailment, setAilment] = useState('');
     const [medication, setMedication] = useState('');
@@ -30,7 +30,7 @@ const PrescriptionModal = ({ isOpen, onClose }) => {
                 <h2 className="text-xl font-semibold mb-4">Manage Prescriptions</h2>
                 <form onSubmit={handleSubmit}>
                     <div className="mb-4">
-                        <label className="block text-sm font-medium">Patient</label>
+                        <label className="block text-sm font-medium">Patient Name</label>
                         <input 
                             type="text" 
                             value={patient} 

@@ -1,30 +1,29 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect } from "react";
 
-const UserContext = createContext();
+const AuthContext = createContext();
 
-export const UserProvider = ({ children }) => {
-    const [doctor, setDoctor] = useState(null);
+const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(null);
 
-    useEffect(() => {
-        // Check local storage for doctor's information
-        const storedDoctor = localStorage.getItem('doctor');
-        if (storedDoctor) {
-            setDoctor(JSON.parse(storedDoctor).firstName); // Set the doctor's name from local storage
-        }
-    }, []);
+  useEffect(() => {
+    // Check local storage for user's information
+    const getUser = localStorage.getItem("user");
+    if (getUser && getUser !== "undefined") {
+      setUser(JSON.parse(getUser));
+    }
+  }, []);
 
-    const logout = () => {
-        setDoctor(null); // Clear the doctor's name from context
-        localStorage.removeItem('doctor'); // Remove doctor's information from local storage
-    };
-
-    return (
-        <UserContext.Provider value={{ doctor, setDoctor, logout }}>
-            {children}
-        </UserContext.Provider>
-    );
+  const logout = () => {
+    setUser(null); // Clear the user from context
+    localStorage.removeItem("user"); // Remove user's information from local storage
+    window.location.href = "/";
+  };
+  
+  return (
+    <AuthContext.Provider value={{ logout, setUser, user }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
-export const useUser = () => {
-    return useContext(UserContext);
-};
+export { AuthContext, AuthProvider };

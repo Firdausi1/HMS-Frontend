@@ -1,41 +1,62 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import { UserProvider } from "./context/AuthContext";
-import DoctorLogin from "./pages/Login/DoctorLogin";
 import DoctorRegister from "./pages/Register/DoctorRegister";
-import DoctorDashboard from "./pages/Dashboard/DoctorDashboard";
+import DoctorDashboard from "./pages/Dashboard/DoctorDashboard/DoctorDashboard";
+import AccountantDashboard from "./pages/Dashboard/AccountantDashboard/AccountantDashboard";
 import SinglePatient from "./pages/SinglePatient";
-import Layout from "./annedashboard/Layout";
-import AnneDashboard from "./annedashboard/AnneDashboard";
-import Patients from "./annedashboard/Patients";
-import Queue from "./annedashboard/Queue";
-import Appointment from "./annedashboard/Appointment";
-import ReceptionistProfile from "./annedashboard/ReceptionistProfile";
+import Layout from "./pages/Dashboard/ReceptionistDashboard/Layout";
+import Patients from "./pages/Dashboard/ReceptionistDashboard/Patients";
+import Queue from "./pages/Dashboard/ReceptionistDashboard/Queue";
+import Appointment from "./pages/Dashboard/ReceptionistDashboard/Appointment";
+import ReceptionistProfile from "./pages/Dashboard/ReceptionistDashboard/ReceptionistProfile";
+import Login from "./pages/Login/Login";
+import ReceptionistDashboard from "./pages/Dashboard/ReceptionistDashboard/AnneDashboard";
+import { useContext } from "react";
+import { AuthContext } from "./context/AuthContext";
+import PrivateRoute from "./route/PrivateRoute";
 
 function App() {
+  const { user } = useContext(AuthContext);
   return (
-    <UserProvider>
-      <Router>
-        <Routes>
-          <Route path="/DoctorLogin" element={<DoctorLogin />} />
-          <Route path="/DoctorRegister" element={<DoctorRegister />} />
-          <Route path="/DoctorDashboard" element={<DoctorDashboard />} />
-          <Route path="/patients/:patientId" element={<SinglePatient />} />
+    <Router>
+      <Routes>
+        <Route path="/" element={<Login />} />
 
-          {/* Redirect root to /annedashboard */}
-          <Route path="/" element={<Navigate to="/annedashboard" replace />} />
+        <Route path="/DoctorRegister" element={<DoctorRegister />} />
+        <Route
+          path="patients/:patientId"
+          element={<PrivateRoute Component={SinglePatient} />}
+        />
+        <Route
+          path="/doctor"
+          element={<PrivateRoute Component={DoctorDashboard} />}
+        />
+        <Route
+          path="/accountant"
+          element={<PrivateRoute Component={AccountantDashboard} />}
+        />
 
-          {/* Dashboard Layout with nested routes */}
-          <Route path="/annedashboard" element={<Layout />}>
-            <Route index element={<AnneDashboard />} /> {/* Default route */}
-            <Route path="patients" element={<Patients />} />
-            <Route path="queue-list" element={<Queue />} />
-            <Route path="appointment-list" element={<Appointment />} />
-            <Route path="receptionist-profile" element={<ReceptionistProfile />} />
-          </Route>
-        </Routes>
-      </Router>
-    </UserProvider>
+        {/* Redirect root to /annedashboard */}
+        {/* <Route path="/receptionist" element={<ReceptionistDashboard />} /> */}
+
+        {/* Dashboard Layout with nested routes */}
+        <Route
+          path="/receptionist"
+          element={<PrivateRoute Component={Layout} />}
+        >
+          <Route index element={<ReceptionistDashboard />} />{" "}
+          {/* Default route */}
+          <Route path="patients" element={<Patients />} />
+          <Route path="queue-list" element={<Queue />} />
+          <Route path="appointment-list" element={<Appointment />} />
+          <Route
+            path="receptionist-profile"
+            element={<ReceptionistProfile />}
+          />
+        </Route>
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </Router>
   );
 }
 

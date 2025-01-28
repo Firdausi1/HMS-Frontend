@@ -30,7 +30,6 @@ function DoctorLogin() {
 
                 navigate('/DoctorDashboard');
             } else {
-                // Handle login error
                 console.error('Login failed:', response.statusText);
             }
         } catch (error) {

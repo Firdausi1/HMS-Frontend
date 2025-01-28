@@ -10,9 +10,7 @@ const PatientModal = ({ isOpen, onClose, patients }) => {
     if (!isOpen) return null; // Don't render the modal if it's not open
 
     const handleViewMore = (patient) => {
-        console.log('View More clicked for patient:', patient); // Debugging log
-        setSelectedPatient(patient); // Set the selected patient
-        setIsVitalsModalOpen(true); // Open the vitals modal
+        navigate(`/patients/${patient.id}`); // Navigate to the single patient page
     };
 
     return (
