@@ -8,7 +8,8 @@ import {
 import DoctorDashboard from "./pages/Dashboard/DoctorDashboard/DoctorDashboard";
 import SinglePatient from "./pages/SinglePatient";
 import Patients from "./pages/Dashboard/ReceptionistDashboard/Patients";
-import Queue from "./pages/Dashboard/ReceptionistDashboard/Queue";
+import NurseQueue from "./pages/Dashboard/ReceptionistDashboard/NurseQueue";
+import DoctorQueue from "./pages/Dashboard/ReceptionistDashboard/DoctorQueue";
 import Appointment from "./pages/Dashboard/ReceptionistDashboard/Appointment";
 import ReceptionistProfile from "./pages/Dashboard/ReceptionistDashboard/ReceptionistProfile";
 import Login from "./pages/Login/Login";
@@ -64,7 +65,8 @@ function App() {
           <Route index element={<ReceptionistDashboard />} />
           {/* Default route */}
           <Route path="patients" element={<Patients />} />
-          <Route path="queue-list" element={<Queue />} />
+          <Route path="nurse-queue" element={<NurseQueue />} />
+          <Route path="doctor-queue" element={<DoctorQueue />} />
           <Route path="appointment-list" element={<Appointment />} />
           <Route
             path="receptionist-profile"

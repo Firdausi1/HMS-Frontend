@@ -1,7 +1,7 @@
 import React from 'react';
 
 const PatientVitalsModal = ({ isOpen, onClose, patient }) => {
-    if (!isOpen) return null; // Don't render the modal if it's not open
+    if (!isOpen) return null;
 
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70">

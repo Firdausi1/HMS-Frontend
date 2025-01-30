@@ -41,7 +41,7 @@ const SideBar = () => {
       </NavLink>
 
       <NavLink
-        to="/receptionist/queue-list"
+        to="/receptionist/nurse-queue"
         className={({ isActive }) =>
           `flex items-center px-6 py-3 rounded-lg text-sm font-medium ${
             isActive
@@ -50,8 +50,22 @@ const SideBar = () => {
           }`
         }
       >
-        <FaClipboardList className="mr-3 text-lg" />
-        Queue
+      <FaClipboardList className="mr-3 text-lg" />
+        Nurse Queue
+      </NavLink>
+
+      <NavLink
+        to="/receptionist/doctor-queue"
+        className={({ isActive }) =>
+          `flex items-center px-6 py-3 rounded-lg text-sm font-medium ${
+            isActive
+              ? 'bg-blue-700 text-white'
+              : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+          }`
+        }
+      >
+      <FaClipboardList className="mr-3 text-lg" />
+        Doctor Queue
       </NavLink>
 
       <NavLink
