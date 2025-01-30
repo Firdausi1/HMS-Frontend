@@ -10,7 +10,7 @@ const NurseDashboard = () => {
   const { user, logout } = useContext(AuthContext);
 
   // Define API URLs
-  const BASE_URL_PATIENTS = "http://localhost:3001/api/patients";
+  const BASE_URL_QUEUEDPATIENTS = "http://localhost:3001/api/queue";
   const BASE_URL_VITALS = "http://localhost:3001/api/vitals";
   const BASE_URL_BED_ALLOTMENT = "http://localhost:3001/api/bedallotment";
 
@@ -23,7 +23,7 @@ const NurseDashboard = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const patientsResponse = await axios.get(BASE_URL_PATIENTS);
+        const patientsResponse = await axios.get(BASE_URL_QUEUEDPATIENTS);
         // console.log("Patients Response:", patientsResponse.data);
         setPatients(patientsResponse.data);
 
@@ -75,7 +75,7 @@ const NurseDashboard = () => {
             />
             <div className="absolute top-3 left-3 text-blue-700">
               <span className="text-4xl font-bold">{patients?.length}</span>
-              <h3 className="text-xl font-bold">Patients</h3>
+              <h3 className="text-xl font-bold">Queued Patients</h3>
             </div>
           </div>
 
