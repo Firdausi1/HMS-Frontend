@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 
 const Vitals = () => {
   const BASE_URL_VITALS = "http://localhost:3001/api/vitals";
-  const BASE_URL_QUEUEDPATIENTS = "http://localhost:3001/api/queue";;
+  const BASE_URL_QUEUEDPATIENTS = "http://localhost:3001/api/queue";
   const [vitals, setVitals] = useState([]);
   const [patients, setPatients] = useState([]);
   const [formData, setFormData] = useState({
@@ -22,27 +22,27 @@ const Vitals = () => {
   const [editing, setEditing] = useState(false); // New state to track edit mode
   const [currentVitalId, setCurrentVitalId] = useState(null); // To track which vital is being edited
 
+  const fetchVitals = async () => {
+    try {
+      const response = await axios.get(BASE_URL_VITALS);
+      console.log("this is the patient vitals:", response.data.data);
+      setVitals(response.data.data);
+    } catch (error) {
+      console.error("Error fetching vitals:", error);
+    }
+  };
+
+  const fetchPatients = async () => {
+    try {
+      const response = await axios.get(BASE_URL_QUEUEDPATIENTS);
+      // console.log("this is the patient data:", response.data)
+      setPatients(response.data); // Assuming the API returns an array of patients
+    } catch (error) {
+      console.error("Error fetching patients:", error);
+    }
+  };
+
   useEffect(() => {
-    const fetchVitals = async () => {
-      try {
-        const response = await axios.get(BASE_URL_VITALS);
-        console.log("this is the patient vitals:", response.data.data);
-        setVitals(response.data.data);
-      } catch (error) {
-        console.error("Error fetching vitals:", error);
-      }
-    };
-
-    const fetchPatients = async () => {
-      try {
-        const response = await axios.get(BASE_URL_QUEUEDPATIENTS);
-        // console.log("this is the patient data:", response.data)
-        setPatients(response.data); // Assuming the API returns an array of patients
-      } catch (error) {
-        console.error("Error fetching patients:", error);
-      }
-    };
-
     fetchVitals();
     fetchPatients();
   }, []);
@@ -69,7 +69,6 @@ const Vitals = () => {
     }
   };
 
-  
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -92,26 +91,48 @@ const Vitals = () => {
     try {
       if (editing) {
         // If we're editing, send a PUT request
-        const response = await axios.put(`${BASE_URL_VITALS}/${currentVitalId}`, formData);
+        const response = await axios.put(
+          `${BASE_URL_VITALS}/${currentVitalId}`,
+          formData
+        );
         // alert("Vitals updated successfully!");
-        toast.success( "Vitals updated successfully!");
-    
+        toast.success("Vitals updated successfully!");
+
         // Update the vitals state immediately after the update
         setVitals((prevVitals) =>
           prevVitals.map((vital) =>
-            vital._id === currentVitalId ? { ...vital, ...response.data.data } : vital
+            vital._id === currentVitalId
+              ? { ...vital, ...response.data.data }
+              : vital
           )
         );
       } else {
         // If we're adding, send a POST request
-        const response = await axios.post(`${BASE_URL_VITALS}/add_vitals`, formData);
+        const response = await axios.post(
+          `${BASE_URL_VITALS}/add_vitals`,
+          formData
+        );
         // alert("Vitals added successfully!");
-        toast.success( "Vitals added successfully!");
-    
-        // Add the new vital signs to the vitals list
-      setVitals((prevVitals) => [...prevVitals, response.data.data]);
+        toast.success("Vitals added successfully!");
+
+        // Find the patient details and attach them to the new vital entry
+        const patient = patients.find(
+          (p) => p.patient._id === formData.patientId
+        );
+
+        const newVital = {
+          ...response.data.data,
+          patient: patient ? patient.patient : null, // Attach patient data if available
+        };
+  
+
+        // Update vitals list immediately with patient details
+      setVitals((prevVitals) => [...prevVitals, newVital]);
+
+        // Ensure patients are refetched after adding new vitals
+        fetchPatients();
       }
-    
+
       // Reset form and states
       setFormData({
         patientId: "",
@@ -122,20 +143,19 @@ const Vitals = () => {
         oxygenSaturation: "",
         notes: "",
       });
-      setEditing(false);  // Reset the editing state
+      setEditing(false); // Reset the editing state
       setShowVitals(true);
       setShowForm(false);
     } catch (error) {
       console.error("Error adding/updating vitals:", error);
       // alert("Failed to save vitals.");
-      toast.error( "Failed to save vitals.");
+      toast.error("Failed to save vitals.");
     }
-    
   };
 
   const handleEdit = (vital) => {
     setFormData({
-      patientId: vital.patient._id,
+      patientId: vital.patient?._id,
       bloodPressure: {
         systolic: vital.bloodPressure.systolic,
         diastolic: vital.bloodPressure.diastolic,
@@ -157,11 +177,11 @@ const Vitals = () => {
       await axios.delete(`${BASE_URL_VITALS}/${id}`);
       setVitals(vitals.filter((vital) => vital._id !== id)); // Remove deleted vital from the list
       // alert("Vitals deleted successfully!");
-      toast.success( "Vitals deleted successfully!");
+      toast.success("Vitals deleted successfully!");
     } catch (error) {
       console.error("Error deleting vitals:", error);
       // alert("Failed to delete vitals.");
-      toast.error( "Failed to delete vitals.");
+      toast.error("Failed to delete vitals.");
     }
   };
 
@@ -169,7 +189,11 @@ const Vitals = () => {
     <div className="p-6">
       <div className="flex border-b mb-6">
         <button
-          className={`px-4 py-2 text-sm font-medium ${showVitals ? "border-b-2 border-blue-500 text-blue-500" : "text-gray-700"}`}
+          className={`px-4 py-2 text-sm font-medium ${
+            showVitals
+              ? "border-b-2 border-blue-500 text-blue-500"
+              : "text-gray-700"
+          }`}
           onClick={() => {
             setShowVitals(true);
             setShowForm(false);
@@ -178,7 +202,11 @@ const Vitals = () => {
           Vitals
         </button>
         <button
-          className={`px-4 py-2 text-sm font-medium ${showForm ? "border-b-2 border-blue-500 text-blue-500" : "text-gray-700"}`}
+          className={`px-4 py-2 text-sm font-medium ${
+            showForm
+              ? "border-b-2 border-blue-500 text-blue-500"
+              : "text-gray-700"
+          }`}
           onClick={() => {
             setShowForm(true);
             setShowVitals(false);
@@ -195,14 +223,28 @@ const Vitals = () => {
             <thead>
               <tr>
                 <th className="px-4 py-2 border bg-blue-600 text-white">#</th>
-                <th className="px-4 py-2 border bg-blue-600 text-white">Patient</th>
+                <th className="px-4 py-2 border bg-blue-600 text-white">
+                  Patient
+                </th>
                 <th className="px-4 py-2 border bg-blue-600 text-white">BP</th>
-                <th className="px-4 py-2 border bg-blue-600 text-white">Heart Rate (bpm)</th>
-                <th className="px-4 py-2 border bg-blue-600 text-white">Temp (°F)</th>
-                <th className="px-4 py-2 border bg-blue-600 text-white">Resp Rate (b/min)</th>
-                <th className="px-4 py-2 border bg-blue-600 text-white">O2 Sat (%)</th>
-                <th className="px-4 py-2 border bg-blue-600 text-white">Notes</th>
-                <th className="px-4 py-2 border bg-blue-600 text-white">Options</th>
+                <th className="px-4 py-2 border bg-blue-600 text-white">
+                  Heart Rate (bpm)
+                </th>
+                <th className="px-4 py-2 border bg-blue-600 text-white">
+                  Temp (°F)
+                </th>
+                <th className="px-4 py-2 border bg-blue-600 text-white">
+                  Resp Rate (b/min)
+                </th>
+                <th className="px-4 py-2 border bg-blue-600 text-white">
+                  O2 Sat (%)
+                </th>
+                <th className="px-4 py-2 border bg-blue-600 text-white">
+                  Notes
+                </th>
+                <th className="px-4 py-2 border bg-blue-600 text-white">
+                  Options
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -210,11 +252,16 @@ const Vitals = () => {
                 <tr key={vital._id} className="border text-xs">
                   <td className="border px-4 py-2">{index + 1}</td>
                   <td className="border px-4 py-2">{vital?.patient.name}</td>
-                  <td className="border px-4 py-2">{vital?.bloodPressure.systolic}/{vital?.bloodPressure.diastolic}</td>
+                  <td className="border px-4 py-2">
+                    {vital?.bloodPressure.systolic}/
+                    {vital?.bloodPressure.diastolic}
+                  </td>
                   <td className="border px-4 py-2">{vital?.heartRate}</td>
                   <td className="border px-4 py-2">{vital?.temperature}</td>
                   <td className="border px-4 py-2">{vital?.respiratoryRate}</td>
-                  <td className="border px-4 py-2">{vital?.oxygenSaturation}</td>
+                  <td className="border px-4 py-2">
+                    {vital?.oxygenSaturation}
+                  </td>
                   <td className="border px-4 py-2">{vital?.notes}</td>
                   <td className="border px-4 py-2 flex justify-between">
                     <button
@@ -240,11 +287,15 @@ const Vitals = () => {
       {showForm && (
         <div className="flex justify-center items-center min-h-[80vh]">
           <div className="bg-blue-100 w-[600px] p-6 rounded-lg shadow-md">
-            <h2 className="text-lg font-bold text-gray-700 mb-4">{editing ? "Edit Vitals" : "Add Vitals"}</h2>
+            <h2 className="text-lg font-bold text-gray-700 mb-4">
+              {editing ? "Edit Vitals" : "Add Vitals"}
+            </h2>
             <form onSubmit={handleSubmit}>
               {/* Form fields */}
               <div className="mb-4">
-                <label className="block text-md font-medium text-blue-800">Patient ID</label>
+                <label className="block text-md font-medium text-blue-800">
+                  Patient ID
+                </label>
                 <select
                   name="patientId"
                   value={formData.patientId}
@@ -254,15 +305,22 @@ const Vitals = () => {
                 >
                   <option value="">Select a patient</option>
                   {patients.map((patient) => (
-                    <option key={patient._id} value={patient._id}>
+                    <option
+                      key={patient.patient._id}
+                      value={patient.patient._id}
+                    >
                       {patient.patient.name}
                     </option>
                   ))}
                 </select>
-                {errors.patientId && <p className="text-red-600 text-sm">{errors.patientId}</p>}
+                {errors.patientId && (
+                  <p className="text-red-600 text-sm">{errors.patientId}</p>
+                )}
               </div>
               <div className="mb-4">
-                <label className="block text-md font-medium text-blue-800">Blood Pressure (Systolic / Diastolic)</label>
+                <label className="block text-md font-medium text-blue-800">
+                  Blood Pressure (Systolic / Diastolic)
+                </label>
                 <div className="flex space-x-2">
                   <input
                     name="systolic"
@@ -281,7 +339,9 @@ const Vitals = () => {
                     placeholder="Diastolic"
                   />
                 </div>
-                {errors.bloodPressure && <p className="text-red-600 text-sm">{errors.bloodPressure}</p>}
+                {errors.bloodPressure && (
+                  <p className="text-red-600 text-sm">{errors.bloodPressure}</p>
+                )}
               </div>
               <div className="mb-4">
                 <label className="block text-md font-medium text-blue-800">
