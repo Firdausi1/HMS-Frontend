@@ -47,7 +47,7 @@ function Login() {
     <div
       className="flex items-center justify-center h-screen bg-cover bg-center"
       style={{
-        backgroundImage: 'url("https://img.freepik.com/free-photo/portrait-happy-african-american-woman-surgeon-standing-operating-room-ready-work-patient-female-medical-worker-surgical-uniform-operation-theater_657921-38.jpg?ga=GA1.1.1223372785.1726203975")',
+        backgroundImage: 'url("https://img.freepik.com/free-psd/entrance-emergency-room-hospital-generative-ai_587448-2057.jpg?t=st=1738234507~exp=1738238107~hmac=f8f2b0ddc5701b9146a80ba8aba3edb61ce0134aa05b0e46c3c5648d95fc21fc&w=1060")',
       }}
     >
       <div className="relative bg-white bg-opacity-20 backdrop-blur-md rounded-2xl shadow-xl px-8 w-96 pb-6 z-10 mt-[190px] border border-gray-200">
@@ -91,7 +91,7 @@ function Login() {
           </div>
           <button
             type="submit"
-            className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg w-full transition duration-200 shadow-md"
+            className="bg-[#0c5e85] hover:bg-[#4085ae] text-white font-bold py-2 px-4 rounded-lg w-full transition duration-200 shadow-md"
           >
             Login
           </button>
