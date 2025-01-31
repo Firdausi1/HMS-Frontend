@@ -39,7 +39,7 @@ const QueuedPatients = () => {
       // Update local state
       setPatients((prevPatients) =>
         prevPatients.map((patient) =>
-          patient._id === queueId ? { ...patient, vitals } : patient
+          patient._id === patientId ? { ...patient, vitals } : patient
         )
       );
 
@@ -91,26 +91,32 @@ const QueuedPatients = () => {
                 {new Date(patient.createdAt).toLocaleString()}
               </td>
               <td className="border px-4 py-2">
-                {editMode[patient._id] ? (
-                  <select
-                    className="border rounded p-1"
-                    value={patient.vitals}
-                    onChange={(e) =>
-                      setPatients((prev) =>
-                        prev.map((p) =>
-                          p._id === patient._id
-                            ? { ...p, vitals: e.target.value }
-                            : p
+                <span
+                  className={`${
+                    patient.vitals === "Pending" ? "text-red-800" : "text-green-800"
+                  }`}
+                >
+                  {editMode[patient._id] ? (
+                    <select
+                      className="border rounded p-1"
+                      value={patient.vitals}
+                      onChange={(e) =>
+                        setPatients((prev) =>
+                          prev.map((p) =>
+                            p._id === patient._id
+                              ? { ...p, vitals: e.target.value }
+                              : p
+                          )
                         )
-                      )
-                    }
-                  >
-                    <option value="Pending">Pending</option>
-                    <option value="Completed">Completed</option>
-                  </select>
-                ) : (
-                  patient.vitals
-                )}
+                      }
+                    >
+                      <option value="Pending">Pending</option>
+                      <option value="Completed">Completed</option>
+                    </select>
+                  ) : (
+                    patient.vitals
+                  )}
+                </span>
               </td>
               <td className="px-4 py-2 flex gap-4">
                 <Link to={"/nurse/vitals"}>
