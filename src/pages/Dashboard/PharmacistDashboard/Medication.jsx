@@ -17,11 +17,12 @@ const Medication = () => {
   const [showForm, setShowForm] = useState(false);
   const [editing, setEditing] = useState(false);
   const [currentMedicationId, setCurrentMedicationId] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     const fetchMedications = async () => {
       try {
-        const response = await axios.get(BASE_URL_MEDICATION);
+        const response = await axios.get( `${BASE_URL_MEDICATION}?search=${searchTerm}`);
         setMedications(response.data.data);
       } catch (error) {
         console.error("Error fetching medications:", error);
@@ -29,7 +30,7 @@ const Medication = () => {
     };
 
     fetchMedications();
-  }, []);
+  }, [searchTerm]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -161,9 +162,19 @@ const Medication = () => {
 
       {showMedications && (
         <div>
-          <h2 className="text-lg font-bold text-gray-700 mb-4">
+          <div className="flex justify-between">
+            <h2 className="text-lg font-bold text-gray-700 mb-4">
             Medications List
           </h2>
+          <input
+          type="text"
+          placeholder="Search by name"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="mb-4 p-2 border border-gray-300 rounded w-96 outline-none"
+        />
+          </div>
+          
           <table className="table-auto w-full border-collapse border border-gray-300 text-sm">
             <thead>
               <tr>
