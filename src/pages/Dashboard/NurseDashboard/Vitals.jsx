@@ -21,6 +21,7 @@ const Vitals = () => {
   const [showForm, setShowForm] = useState(false);
   const [editing, setEditing] = useState(false); // New state to track edit mode
   const [currentVitalId, setCurrentVitalId] = useState(null); // To track which vital is being edited
+  const [searchTerm, setSearchTerm] = useState("");
 
   const fetchVitals = async () => {
     try {
@@ -124,10 +125,9 @@ const Vitals = () => {
           ...response.data.data,
           patient: patient ? patient.patient : null, // Attach patient data if available
         };
-  
 
         // Update vitals list immediately with patient details
-      setVitals((prevVitals) => [...prevVitals, newVital]);
+        setVitals((prevVitals) => [...prevVitals, newVital]);
 
         // Ensure patients are refetched after adding new vitals
         fetchPatients();
@@ -185,6 +185,11 @@ const Vitals = () => {
     }
   };
 
+  // Filter vitals list based on search term
+  const filteredVitals = vitals.filter((vital) =>
+    vital.patient?.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className="p-6">
       <div className="flex border-b mb-6">
@@ -218,7 +223,19 @@ const Vitals = () => {
 
       {showVitals && (
         <div>
-          <h2 className="text-lg font-bold text-gray-700 mb-4">Vitals List</h2>
+          <div className="flex justify-between">
+            <h2 className="text-lg font-bold text-gray-700 mb-4">
+              Vitals List
+            </h2>
+            <input
+              type="text"
+              placeholder="Search by name"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="mb-4 p-2 border border-gray-300 rounded w-96 outline-none"
+            />
+          </div>
+
           <table className="table-auto w-full border-collapse border border-gray-300 text-sm">
             <thead>
               <tr>
@@ -248,10 +265,10 @@ const Vitals = () => {
               </tr>
             </thead>
             <tbody>
-              {vitals.map((vital, index) => (
+              {filteredVitals.map((vital, index) => (
                 <tr key={vital._id} className="border text-xs">
                   <td className="border px-4 py-2">{index + 1}</td>
-                  <td className="border px-4 py-2">{vital?.patient.name}</td>
+                  <td className="border px-4 py-2">{vital?.patient?.name}</td>
                   <td className="border px-4 py-2">
                     {vital?.bloodPressure.systolic}/
                     {vital?.bloodPressure.diastolic}
@@ -279,6 +296,13 @@ const Vitals = () => {
                   </td>
                 </tr>
               ))}
+              {filteredVitals.length === 0 && (
+                <tr>
+                  <td colSpan="9" className="text-center py-4 text-gray-500">
+                    No matching vitals found
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>

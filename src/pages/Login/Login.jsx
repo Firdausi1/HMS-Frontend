@@ -51,8 +51,8 @@ function Login() {
       }}
     >
       <div className="relative bg-white bg-opacity-20 backdrop-blur-md rounded-2xl shadow-xl px-8 w-96 pb-6 z-10 mt-[190px] border border-gray-200">
-        <h1 className="text-2xl font-bold text-center text-white mb-6">
-          HOSPITAL MANAGEMENT SYSTEM
+        <h1 className="text-2xl font-bold text-center text-white mb-6 uppercase">
+        Jeffkinson Hospital 
         </h1>
         <form onSubmit={handleLogin}>
           <div className="mb-4">

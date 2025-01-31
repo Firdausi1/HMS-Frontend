@@ -21,6 +21,7 @@ const BedAllotment = () => {
   const [showForm, setShowForm] = useState(false);
   const [editing, setEditing] = useState(false);
   const [currentAllotmentId, setCurrentAllotmentId] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -91,7 +92,7 @@ const BedAllotment = () => {
         // Fetch fresh data to ensure proper population
         // Refetch all allotments to get the updated data
         const allotmentResponse = await axios.get(BASE_URL_ALLOTMENT);
-        setAllotments(allotmentResponse.data.data);;
+        setAllotments(allotmentResponse.data.data);
       }
 
       setFormData({
@@ -106,14 +107,14 @@ const BedAllotment = () => {
     } catch (error) {
       console.error("Error saving bed allotment:", error);
       // alert("Failed to save bed allotment.");
-      toast.error( "Failed to save bed allotment.");
+      toast.error("Failed to save bed allotment.");
     }
   };
 
   const handleEdit = (allotment) => {
     setFormData({
       patientId: allotment.patient._id,
-      bedId:  allotment.bed ? allotment.bed._id : "",
+      bedId: allotment.bed ? allotment.bed._id : "",
       status: allotment.status,
       notes: allotment.notes || "",
     });
@@ -132,9 +133,15 @@ const BedAllotment = () => {
     } catch (error) {
       console.error("Error deleting bed allotment:", error);
       // alert("Failed to delete bed allotment.");
-      toast.error( "Failed to delete bed allotment.");
+      toast.error("Failed to delete bed allotment.");
     }
   };
+
+  const filteredAllotments = allotments.filter((allotment) =>
+    allotment.patient.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+
   return (
     <div className="p-6">
       <div className="flex border-b mb-6">
@@ -168,9 +175,19 @@ const BedAllotment = () => {
 
       {showAllotments && (
         <div>
-          <h2 className="text-lg font-bold text-gray-700 mb-4">
-            Bed Allotments
-          </h2>
+          <div className="flex justify-between">
+            <h2 className="text-lg font-bold text-gray-700 mb-4">
+              Bed Allotments
+            </h2>
+            <input
+              type="text"
+              placeholder="Search by name"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="mb-4 p-2 border border-gray-300 rounded w-96 outline-none"
+            />
+          </div>
+
           <table className="table-auto w-full border-collapse border border-gray-300 text-sm">
             <thead>
               <tr>
@@ -191,7 +208,7 @@ const BedAllotment = () => {
               </tr>
             </thead>
             <tbody>
-              {allotments.map((allotment, index) => (
+              {filteredAllotments.map((allotment, index) => (
                 <tr key={allotment._id} className="border text-xs">
                   <td className="border px-4 py-2">{index + 1}</td>
                   <td className="border px-4 py-2">{allotment.patient.name}</td>
@@ -240,7 +257,10 @@ const BedAllotment = () => {
                 >
                   <option value="">Select Patient</option>
                   {patients?.map((patient) => (
-                    <option key={patient?.patient._id} value={patient?.patient._id}>
+                    <option
+                      key={patient?.patient._id}
+                      value={patient?.patient._id}
+                    >
                       {patient?.patient?.name}
                     </option>
                   ))}
