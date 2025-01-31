@@ -14,8 +14,6 @@ import Appointment from "./pages/Dashboard/ReceptionistDashboard/Appointment";
 import ReceptionistProfile from "./pages/Dashboard/ReceptionistDashboard/ReceptionistProfile";
 import Login from "./pages/Login/Login";
 import ReceptionistDashboard from "./pages/Dashboard/ReceptionistDashboard/AnneDashboard";
-import { useContext } from "react";
-import { AuthContext } from "./context/AuthContext";
 import PrivateRoute from "./route/PrivateRoute";
 import NurseDashboard from "./pages/Dashboard/NurseDashboard/NurseDashboard";
 import Layout2 from "./pages/Dashboard/NurseDashboard/Layout2";
@@ -52,12 +50,12 @@ function App() {
         />
         <Route
           path="/doctor"
-          element={<PrivateRoute Component={DoctorDashboard} />}
+          element={<PrivateRoute role={"Doctor"} Component={DoctorDashboard} />}
         />
         <Route
           path="/receptionist"
           element={
-            <PrivateRoute>
+            <PrivateRoute role={"Receptionist"}>
               <Layout />
             </PrivateRoute>
           }
@@ -76,7 +74,7 @@ function App() {
         <Route
           path="/nurse"
           element={
-            <PrivateRoute>
+            <PrivateRoute role={"Nurse"}>
               <Layout2 />
             </PrivateRoute>
           }
@@ -105,7 +103,7 @@ function App() {
         <Route
           path="/pharmacist"
           element={
-            <PrivateRoute>
+            <PrivateRoute role={"Pharmacist"}>
               <Layout3 />
             </PrivateRoute>
           }
@@ -119,6 +117,7 @@ function App() {
           <Route path="inventory" element={<Inventory />} />
           <Route path="profile" element={<PharmacistProfile />} />
         </Route>
+        <Route path="/unauthorized" element={<h1>Unauthorized page</h1>} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>
