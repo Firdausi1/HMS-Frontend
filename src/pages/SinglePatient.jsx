@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import PrescriptionModal from '../components/PrescriptionModal';
 
 const SinglePatient = () => {
-    const { patientId, prescriptionId } = useParams(); // Get both patient ID and prescription ID from URL parameters
+    const location = useLocation();
+    const { prescriptionId } = location.state || {}; // Access prescriptionId from state
+    const { patientId } = useParams(); // Get both patient ID and prescription ID from URL parameters
     console.log('useParams:', { patientId, prescriptionId }); // Log the entire useParams object
     const [patient, setPatient] = useState(null);
     const [loading, setLoading] = useState(true);

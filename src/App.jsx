@@ -6,6 +6,7 @@ import {
   Navigate,
 } from "react-router-dom";
 import DoctorDashboard from "./pages/Dashboard/DoctorDashboard/DoctorDashboard";
+import DoctorProfile from "./pages/Dashboard/DoctorDashboard/DoctorProfile.jsx";
 import AccountantDashboard from "./pages/Dashboard/AccountantDashboard/AccountantDashboard";
 import SinglePatient from "./pages/SinglePatient";
 import Patients from "./pages/Dashboard/ReceptionistDashboard/Patients";
@@ -57,8 +58,21 @@ function App() {
 
         <Route
           path="/doctor"
-          element={<PrivateRoute role={"Doctor"} Component={DoctorDashboard} />}
+          element={
+            <PrivateRoute>
+              <DoctorDashboard /> {/* Pass DoctorDashboard as children */}
+            </PrivateRoute>
+          }
         />
+         <Route
+          path="/doctor-profile"
+          element={
+            <PrivateRoute>
+              <DoctorProfile /> {/* Pass DoctorProfile as children */}
+            </PrivateRoute>
+          }
+        />
+
         <Route
           path="/accountant"
           element={

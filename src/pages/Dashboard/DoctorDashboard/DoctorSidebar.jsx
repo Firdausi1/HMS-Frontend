@@ -123,7 +123,7 @@ const DoctorSideBar = ({ handleViewPatients, handleOpenQueueModal, handleViewApp
       </NavLink>
 
       <NavLink
-        to="/"
+        to="/doctor-profile"
         className={({ isActive }) =>
           `flex items-center px-6 py-3 rounded-lg text-sm font-medium ${
             isActive
