@@ -3,7 +3,8 @@ import { useParams } from 'react-router-dom';
 import PrescriptionModal from '../components/PrescriptionModal';
 
 const SinglePatient = () => {
-    const { patientId } = useParams(); // Get patient ID from URL parameters
+    const { patientId, prescriptionId } = useParams(); // Get both patient ID and prescription ID from URL parameters
+    console.log('useParams:', { patientId, prescriptionId }); // Log the entire useParams object
     const [patient, setPatient] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -13,6 +14,8 @@ const SinglePatient = () => {
     const [newPrescription, setNewPrescription] = useState('');
     const [isAdditionalInfoModalOpen, setIsAdditionalInfoModalOpen] = useState(false);
     const [newAdditionalInfo, setNewAdditionalInfo] = useState('');
+    const [prescriptions, setPrescriptions] = useState([]); // State to hold prescriptions
+    const [prescriptionData, setPrescriptionData] = useState(null); // State to hold the fetched prescription data
 
     useEffect(() => {
         const fetchPatientData = async () => {
@@ -86,8 +89,28 @@ const SinglePatient = () => {
         setIsPrescriptionModalOpen(false);
     };
 
-    const handleViewPreviousPrescriptions = () => {
-        alert("Viewing previous prescriptions...");
+    const handleViewPreviousPrescriptions = async () => {
+        console.log('Patient ID:', patientId); // Log the patientId
+
+        if (!patientId) {
+            alert('Patient ID is not defined');
+            return; // Exit the function if the patient ID is not valid
+        }
+
+        try {
+            const baseUrl = 'http://localhost:3001/api';
+            const response = await fetch(`${baseUrl}/patientPrescriptions/${prescriptionId}`); // Updated route
+            if (response.ok) {
+                const prescriptionsData = await response.json();
+                console.log('Previous Prescriptions:', prescriptionsData);
+                setPrescriptionData(prescriptionsData.data);
+                setIsPrescriptionModalOpen(true);
+            } else {
+                alert('Failed to fetch previous prescriptions');
+            }
+        } catch (err) {
+            alert('Error: ' + err.message);
+        }
     };
 
     const handleAddAdditionalInfo = () => {
@@ -108,6 +131,29 @@ const SinglePatient = () => {
     const handleCloseAdditionalInfoModal = () => {
         setNewAdditionalInfo(''); // Clear the input
         setIsAdditionalInfoModalOpen(false); // Close the modal
+    };
+
+    const handleViewPrescriptionDetails = async (prescriptionId) => {
+        console.log('Prescription ID:', prescriptionId); // Log the prescriptionId
+
+        if (!prescriptionId) {
+            alert('Prescription ID is not defined');
+            return; // Exit the function if the prescription ID is not valid
+        }
+
+        try {
+            const baseUrl = 'http://localhost:3001/api';
+            const response = await fetch(`${baseUrl}/patientPrescriptions/${prescriptionId}`); // Fetch specific prescription
+            if (response.ok) {
+                const prescriptionData = await response.json();
+                console.log('Prescription Details:', prescriptionData);
+                // Handle the prescription data as needed
+            } else {
+                alert('Failed to fetch prescription details');
+            }
+        } catch (err) {
+            alert('Error: ' + err.message);
+        }
     };
 
     return (
@@ -190,7 +236,9 @@ const SinglePatient = () => {
                         {patient.prescriptions && patient.prescriptions.length > 0 ? (
                             <ul className="list-disc ml-4">
                                 {patient.prescriptions.map((prescription, index) => (
-                                    <li key={index}>{prescription}</li>
+                                    <li key={index} onClick={() => handleViewPrescriptionDetails(prescription._id)}>
+                                        {prescription}
+                                    </li>
                                 ))}
                             </ul>
                         ) : (
@@ -223,6 +271,24 @@ const SinglePatient = () => {
                             Add Additional Information
                         </button>
                     </div>
+
+                    {prescriptionData && (
+                        <div className="bg-white p-4 rounded-lg shadow">
+                            <h2 className="text-xl font-semibold">Prescription Details</h2>
+                            <p><strong>Prescription ID:</strong> {prescriptionData._id}</p>
+                            <p><strong>Patient Name:</strong> {prescriptionData.patient.name}</p>
+                            <p><strong>Notes:</strong> {prescriptionData.notes}</p>
+                            <p><strong>Date:</strong> {new Date(prescriptionData.date).toLocaleDateString()}</p>
+                            <h3 className="font-semibold">Medications:</h3>
+                            <ul className="list-disc ml-4">
+                                {prescriptionData.medications.map((medication) => (
+                                    <li key={medication._id}>
+                                        <strong>{medication.medication.name}</strong> - {medication._id}
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
                 </div>
             )}
 
@@ -250,6 +316,34 @@ const SinglePatient = () => {
                                 className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
                             >
                                 Submit
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {isPrescriptionModalOpen && prescriptionData && (
+                <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+                    <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
+                        <h2 className="text-2xl font-semibold mb-4 text-center">Prescription Details</h2>
+                        <p><strong>Prescription ID:</strong> {prescriptionData._id}</p>
+                        <p><strong>Patient Name:</strong> {prescriptionData.patient.name}</p>
+                        <p><strong>Notes:</strong> {prescriptionData.notes}</p>
+                        <p><strong>Date:</strong> {new Date(prescriptionData.date).toLocaleDateString()}</p>
+                        <h3 className="font-semibold mt-4">Medications:</h3>
+                        <ul className="list-disc ml-4">
+                            {prescriptionData.medications.map((medication) => (
+                                <li key={medication._id}>
+                                    <strong>{medication.medication.name}</strong> - {medication._id}
+                                </li>
+                            ))}
+                        </ul>
+                        <div className="flex justify-end mt-4">
+                            <button 
+                                onClick={() => setIsPrescriptionModalOpen(false)} 
+                                className="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400 transition"
+                            >
+                                Close
                             </button>
                         </div>
                     </div>

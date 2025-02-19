@@ -46,17 +46,31 @@ function App() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/admin_login" element={<AdminLogin />} />
-        <Route
+         
+         <Route
           path="patients/:patientId"
-          element={<PrivateRoute Component={SinglePatient} />}
+          element={
+          <PrivateRoute>
+            <SinglePatient />
+          </PrivateRoute> 
+          }
         />
+
         <Route
           path="/doctor"
-          element={<PrivateRoute Component={DoctorDashboard} />}
+          element={
+            <PrivateRoute>
+              <DoctorDashboard /> {/* Pass DoctorDashboard as children */}
+            </PrivateRoute>
+          }
         />
         <Route
           path="/accountant"
-          element={<PrivateRoute Component={AccountantDashboard} />}
+          element={
+            <PrivateRoute>
+              <AccountantDashboard /> {/* Pass Accountant Dashboard as children */}
+            </PrivateRoute>
+          }
         />
 
         {/* Redirect root to /annedashboard */}
