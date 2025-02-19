@@ -9,13 +9,12 @@ import DoctorDashboard from "./pages/Dashboard/DoctorDashboard/DoctorDashboard";
 import AccountantDashboard from "./pages/Dashboard/AccountantDashboard/AccountantDashboard";
 import SinglePatient from "./pages/SinglePatient";
 import Patients from "./pages/Dashboard/ReceptionistDashboard/Patients";
-import Queue from "./pages/Dashboard/ReceptionistDashboard/Queue";
+import NurseQueue from "./pages/Dashboard/ReceptionistDashboard/NurseQueue";
+import DoctorQueue from "./pages/Dashboard/ReceptionistDashboard/DoctorQueue";
 import Appointment from "./pages/Dashboard/ReceptionistDashboard/Appointment";
 import ReceptionistProfile from "./pages/Dashboard/ReceptionistDashboard/ReceptionistProfile";
 import Login from "./pages/Login/Login";
 import ReceptionistDashboard from "./pages/Dashboard/ReceptionistDashboard/AnneDashboard";
-import { useContext } from "react";
-import { AuthContext } from "./context/AuthContext";
 import PrivateRoute from "./route/PrivateRoute";
 import NurseDashboard from "./pages/Dashboard/NurseDashboard/NurseDashboard";
 import Layout2 from "./pages/Dashboard/NurseDashboard/Layout2";
@@ -58,11 +57,7 @@ function App() {
 
         <Route
           path="/doctor"
-          element={
-            <PrivateRoute>
-              <DoctorDashboard /> {/* Pass DoctorDashboard as children */}
-            </PrivateRoute>
-          }
+          element={<PrivateRoute role={"Doctor"} Component={DoctorDashboard} />}
         />
         <Route
           path="/accountant"
@@ -80,7 +75,7 @@ function App() {
         <Route
           path="/receptionist"
           element={
-            <PrivateRoute>
+            <PrivateRoute role={"Receptionist"}>
               <Layout />
             </PrivateRoute>
           }
@@ -88,7 +83,8 @@ function App() {
           <Route index element={<ReceptionistDashboard />} />
           {/* Default route */}
           <Route path="patients" element={<Patients />} />
-          <Route path="queue-list" element={<Queue />} />
+          <Route path="nurse-queue" element={<NurseQueue />} />
+          <Route path="doctor-queue" element={<DoctorQueue />} />
           <Route path="appointment-list" element={<Appointment />} />
           <Route
             path="receptionist-profile"
@@ -98,7 +94,7 @@ function App() {
         <Route
           path="/nurse"
           element={
-            <PrivateRoute>
+            <PrivateRoute role={"Nurse"}>
               <Layout2 />
             </PrivateRoute>
           }
@@ -127,7 +123,7 @@ function App() {
         <Route
           path="/pharmacist"
           element={
-            <PrivateRoute>
+            <PrivateRoute role={"Pharmacist"}>
               <Layout3 />
             </PrivateRoute>
           }
@@ -141,6 +137,7 @@ function App() {
           <Route path="inventory" element={<Inventory />} />
           <Route path="profile" element={<PharmacistProfile />} />
         </Route>
+        <Route path="/unauthorized" element={<h1>Unauthorized page</h1>} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>

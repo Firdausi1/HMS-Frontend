@@ -10,6 +10,7 @@ const Prescription = () => {
   const [newNotes, setNewNotes] = useState("");
   const [selectedPatient, setSelectedPatient] = useState(null); // For tracking selected patient
   const [activeTab, setActiveTab] = useState("list"); // State for tab navigation
+  const [searchTerm, setSearchTerm] = useState("");
 
   const BASE_URL = "http://localhost:3001/api/prescription/getPrescription";
   const UPDATE_URL = "http://localhost:3001/api/prescription/update/";
@@ -76,6 +77,19 @@ const Prescription = () => {
     }
   };
 
+  // function to filter by name
+  const filteredPrescriptions = prescriptions.filter((prescription) =>
+    prescription.patient?.name?.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  // function to calculate total of drugs cost
+  const calculateTotalCost = (medications) => {
+    return medications.reduce(
+      (total, med) => total + (med.medication.price || 0) * (med.quantity || 1),
+      0
+    );
+  };
+
   return (
     <div>
       {/* Tab Navigation */}
@@ -83,9 +97,19 @@ const Prescription = () => {
         {/* Tab Content */}
         {activeTab === "list" ? (
           <div>
-            <h2 className="text-lg font-bold text-gray-700 mb-4">
-              Prescription List
-            </h2>
+            <div className="flex justify-between">
+              <h2 className="text-lg font-bold text-gray-700 mb-4">
+                Prescription List
+              </h2>
+              <input
+                type="text"
+                placeholder="Search by name"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="mb-4 p-2 border border-gray-300 rounded w-96 outline-none"
+              />
+            </div>
+
             <table className="table-auto w-full border-collapse border border-gray-300 text-sm">
               <thead>
                 <tr>
@@ -108,7 +132,7 @@ const Prescription = () => {
                 </tr>
               </thead>
               <tbody>
-                {prescriptions?.map((prescription, index) => (
+                {filteredPrescriptions?.map((prescription, index) => (
                   <tr key={prescription._id} className="border text-xs">
                     <td className="border px-4 py-2">{index + 1}</td>
                     <td
@@ -184,12 +208,17 @@ const Prescription = () => {
                         {prescription.medications.map((med, index) => (
                           <li className="mb-4" key={med._id}>
                             {med.medication.name}
+                            <span className="ml-4"> &#8358;{med.medication.price}</span>
                           </li>
                         ))}
                       </ul>
                       <p className="mb-4">
                         <strong>Dosage:</strong>{" "}
                         {prescription.notes || "No dosage provided"}
+                      </p>
+                      <p className="mb-4">
+                        <strong>Cost:</strong> ₦
+                        {calculateTotalCost(prescription.medications)}
                       </p>
                       <p className="mb-4">
                         <strong>Date:</strong>{" "}

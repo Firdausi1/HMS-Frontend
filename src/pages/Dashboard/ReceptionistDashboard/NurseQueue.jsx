@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-const Queue = () => {
+const NurseQueue = () => {
   const [showForm, setShowForm] = useState(false);
   const [patients, setPatients] = useState([]);
   const [selectedPatient, setSelectedPatient] = useState("");
@@ -32,33 +32,6 @@ const Queue = () => {
     fetchQueue();
   }, []);
 
-  // const handleAddToQueue = async (e) => {
-  //   e.preventDefault();
-
-  //   if (!selectedPatient) {
-  //     alert("Please select a patient.");
-  //     return;
-  //   }
-
-  //   try {
-  //     // Send only the patient's name to the backend
-  //     const response = await axios.post("http://localhost:3001/api/queue/add", {
-  //       patient_name: selectedPatient, // Send patient's name, not _id
-  //     });
-
-  //     console.log("Patient added to queue:", response.data);
-  //     alert("Patient added to the queue successfully!");
-
-  //     setSelectedPatient(""); // Reset selected patient
-  //     // Refresh the queue after adding a new patient
-  //     const updatedQueue = await axios.get("http://localhost:3001/api/queue");
-  //     setQueue(updatedQueue.data);
-  //   } catch (error) {
-  //     console.error("Error adding patient to queue:", error.response ? error.response.data : error.message);
-  //     alert("Failed to add patient to queue. Please try again.");
-  //   }
-  // };
-
   const handleAddToQueue = async (e) => {
     e.preventDefault();
 
@@ -68,14 +41,22 @@ const Queue = () => {
     }
 
     try {
+      // Find the selected patient by name and use the _id for adding to queue
+      const patientData = patients.find((patient) => patient.name === selectedPatient);
+      if (!patientData) {
+        alert("Patient not found!");
+        return;
+      }
+
       const response = await axios.post("http://localhost:3001/api/queue/add", {
-        patient_name: selectedPatient, // Send patient's name
+        patient_id: patientData._id, // Send patient's _id
+        patient_name: patientData.name, // Send patient's name for display
       });
 
       console.log("Patient added to queue:", response.data);
       alert("Patient added to the queue successfully!");
 
-      // Update queue
+      // Update queue with the new patient
       setQueue((prevQueue) => [...prevQueue, response.data]);
       setSelectedPatient(""); // Reset selected patient
     } catch (error) {
@@ -85,10 +66,11 @@ const Queue = () => {
           ? error.response.data.message
           : "Failed to add patient to queue. Please try again.";
       console.error("Error adding patient to queue:", errorMessage);
-      alert(errorMessage); // Display error message in an alert
+      alert(errorMessage); // Show alert with the error message
+      // console.error("Error adding patient to queue:", error.response ? error.response.data : error.message);
+      // alert("Failed to add patient to queue. Please try again.");
     }
   };
-
 
   const handleDelete = async (queueId) => {
     try {
@@ -97,9 +79,8 @@ const Queue = () => {
       console.log("Patient removed from queue:", response.data);
       alert("Patient removed from queue successfully!");
 
-      // Refresh the queue after deletion
-      const updatedQueue = await axios.get("http://localhost:3001/api/queue");
-      setQueue(updatedQueue.data);
+      // Remove patient from queue in state to avoid another GET request
+      setQueue((prevQueue) => prevQueue.filter((patient) => patient._id !== queueId));
     } catch (error) {
       console.error("Error deleting patient from queue:", error.response ? error.response.data : error.message);
       alert("Failed to remove patient from queue. Please try again.");
@@ -129,11 +110,13 @@ const Queue = () => {
       {/* Queue List */}
       {!showForm && (
         <div className="overflow-x-auto">
+           <h2 className="text-xl font-bold mb-4">Nurse Queue</h2>
           <table className="min-w-full bg-white border">
             <thead>
               <tr className="bg-blue-700 text-white">
                 <th className="py-2 px-4 text-left">#</th>
                 <th className="py-2 px-4 text-left">Patient Name</th>
+                <th className="py-2 px-4 text-center">Queued Time</th>
                 <th className="py-2 px-4 text-center">Options</th>
               </tr>
             </thead>
@@ -146,6 +129,11 @@ const Queue = () => {
                   <td className="py-2 px-4 text-left">{index + 1}</td>
                   <td className="py-2 px-4 text-left">{patient.patient_name}</td>
                   <td className="py-2 px-4 text-center">
+                    {patient.createdAt
+                      ? new Date(patient.createdAt).toLocaleString()
+                      : "N/A"}
+                  </td>
+                  <td className="py-2 px-4 text-center">
                     <button
                       onClick={() => handleDelete(patient._id)}
                       className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
@@ -156,7 +144,6 @@ const Queue = () => {
                 </tr>
               ))}
             </tbody>
-
           </table>
         </div>
       )}
@@ -174,13 +161,7 @@ const Queue = () => {
                 <select
                   id="patient"
                   value={selectedPatient}
-                  onChange={(e) => {
-                    // Get the selected patient's ObjectId by name
-                    const selectedPatientData = patients.find(
-                      (patient) => patient.name === e.target.value
-                    );
-                    setSelectedPatient(selectedPatientData ? selectedPatientData.name : ""); // Set the patient's name, not _id
-                  }}
+                  onChange={(e) => setSelectedPatient(e.target.value)}
                   className="w-full mt-2 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                   <option value="">Select a patient</option>
@@ -203,5 +184,6 @@ const Queue = () => {
   );
 };
 
-export default Queue;
+export default NurseQueue;
+
 
