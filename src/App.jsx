@@ -37,6 +37,7 @@ import AdminProfile from "./pages/Dashboard/Admin/Profile/AdminProfile.jsx";
 import DashboardLayout from "./layout/Layout";
 import Layout from "./pages/Dashboard/ReceptionistDashboard/Layout";
 import QueuedPatients from "./pages/Dashboard/NurseDashboard/QueuedPatients.jsx";
+import AdminRegister from "./pages/Register/Register";
 
 function App() {
   return (
@@ -44,6 +45,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/admin_login" element={<AdminLogin />} />
+        <Route path="/admin_register" element={<AdminRegister />} />
         <Route
           path="/patients/:patientId"
           element={<PrivateRoute Component={SinglePatient} />}
@@ -98,7 +100,9 @@ function App() {
           <Route index element={<AdminDashboard />} />
           <Route path="employee" element={<Employees />} />
           <Route path="department" element={<Departments />} />
+          <Route path="patients" element={<Patients2 />} />
           <Route path="profile" element={<AdminProfile />} />
+          <Route path="allotment" element={<BedAllotment />} />
         </Route>
         <Route
           path="/pharmacist"

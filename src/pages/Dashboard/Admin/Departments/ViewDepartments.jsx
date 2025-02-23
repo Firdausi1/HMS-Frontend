@@ -15,7 +15,7 @@ function ViewDepartments({ setToggleTab }) {
           Department List
         </h2>
       </div>
-      <table className="table-auto w-full border-collapse border border-gray-300">
+      <table className="table-auto w-full border-collapse border border-gray-300 text-sm">
         <thead>
           <tr>
             <th className="px-4 py-2 border bg-blue-600 text-white">S/N</th>
@@ -28,7 +28,7 @@ function ViewDepartments({ setToggleTab }) {
         </thead>
         <tbody>
           {departments?.map((item, index) => (
-            <tr key={item.id} className="border">
+            <tr key={item.id} className="border text-xs">
               <td className="border px-4 py-2">{index + 1}</td>
               <td className="border px-4 py-2">{item?.name}</td>
               <td className="border px-4 py-2">{item?.description}</td>

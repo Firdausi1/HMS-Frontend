@@ -2,10 +2,8 @@ import React from "react";
 import { useContext } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
-import { postRequest, putRequest } from "../../../../api/api";
 import { DepartmentContext } from "../../../../context/DepartmentContext";
 import { EmployeeContext } from "../../../../context/EmployeeContext";
-import { formatDepartment } from "../../../../utils/formatDepartment";
 
 function AddEmployee({ setToggleTab }) {
   const {
