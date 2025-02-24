@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useContext } from "react";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { postRequest } from "../../api/api";
 import { AuthContext } from "../../context/AuthContext"; // Import the context
 
@@ -18,7 +18,6 @@ function AdminLogin() {
         email,
         password,
       });
-      console.log(response)
       if (response.status === 200) {
         localStorage.setItem("user", JSON.stringify(response.data.data));
         setUser(response.data.data);
@@ -30,7 +29,6 @@ function AdminLogin() {
       }
     } catch (error) {
       toast.error("Invalid Email or Password");
-      console.error("Error during login:", error);
     }
   };
 
@@ -41,7 +39,7 @@ function AdminLogin() {
         onSubmit={handleLogin}
       >
         <h2 className="text-3xl mb-6 text-center text-gray-800 font-semibold">
-          Login
+          Admin Login
         </h2>
         <div className="mb-4">
           <label
@@ -83,6 +81,13 @@ function AdminLogin() {
         >
           Login
         </button>
+
+        <p className="mt-4 text-center text-gray-600">
+          Don't have an account?{" "}
+          <Link to="/admin_register" className="text-blue-500 hover:underline">
+            Register
+          </Link>
+        </p>
       </form>
     </div>
   );

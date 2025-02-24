@@ -3,7 +3,7 @@ import {
   AiOutlineUserAdd,
   AiOutlineSchedule,
 } from "react-icons/ai";
-import { FaUserFriends, FaClipboardList } from "react-icons/fa";
+import { FaUserFriends, FaClipboardList, FaBed } from "react-icons/fa";
 
 export const adminDashboardLinks = [
   {
@@ -20,6 +20,16 @@ export const adminDashboardLinks = [
     name: "Departments",
     icon:  <FaClipboardList className="mr-3 text-lg" />,
     link: "/admin/department",
+  },
+  {
+    name: "Patients",
+    icon: <FaUserFriends className="mr-3 text-lg" />,
+    link: "/admin/patients",
+  },
+  {
+    name: "Bed Allotment",
+    icon: <FaBed className="mr-3 text-lg" />,
+    link: "/admin/allotment"
   },
   {
     name: "Profile",

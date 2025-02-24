@@ -8,6 +8,7 @@ const EmployeeProvider = ({ children }) => {
   const [employees, setEmployees] = useState([]);
   const [employeeId, setEmployeeId] = useState(null);
   const [employeeMeta, setEmployeeMeta] = useState();
+  const [patientId, setPatientId] = useState();
 
   const getEmployees = async (page) => {
     try {
@@ -86,6 +87,21 @@ const EmployeeProvider = ({ children }) => {
     }
   };
 
+  const deletePatient = async () => {
+    try {
+      const { data } = await deleteRequest(`patient/${patientId}`);
+      if (data.status_code === 200) {
+        toast.success("Patient deleted successfully");
+      }
+    } catch (err) {
+      toast.error("Counld not delete patient record");
+      console.log(err);
+    }
+    // finally {
+    //   getEmployees(1);
+    // }
+  };
+
   return (
     <EmployeeContext.Provider
       value={{
@@ -98,6 +114,9 @@ const EmployeeProvider = ({ children }) => {
         deleteEmployee,
         createEmployee,
         filterByRole,
+        patientId,
+        setPatientId,
+        deletePatient,
       }}
     >
       {children}
