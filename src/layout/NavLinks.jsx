@@ -1,8 +1,5 @@
-import {
-  AiOutlineDashboard,
-  AiOutlineUserAdd,
-  AiOutlineSchedule,
-} from "react-icons/ai";
+import { AiOutlineDashboard, AiOutlineUserAdd } from "react-icons/ai";
+import { GiMedicines } from "react-icons/gi";
 import { FaUserFriends, FaClipboardList, FaBed } from "react-icons/fa";
 
 export const adminDashboardLinks = [
@@ -18,7 +15,7 @@ export const adminDashboardLinks = [
   },
   {
     name: "Departments",
-    icon:  <FaClipboardList className="mr-3 text-lg" />,
+    icon: <FaClipboardList className="mr-3 text-lg" />,
     link: "/admin/department",
   },
   {
@@ -29,11 +26,16 @@ export const adminDashboardLinks = [
   {
     name: "Bed Allotment",
     icon: <FaBed className="mr-3 text-lg" />,
-    link: "/admin/allotment"
+    link: "/admin/allotment",
+  },
+  {
+    name: "Medications",
+    icon: <GiMedicines className="mr-3 text-lg" />,
+    link: "/admin/medication",
   },
   {
     name: "Profile",
     icon: <AiOutlineUserAdd className="mr-3 text-lg" />,
-    link: "/admin/profile"
-  }
+    link: "/admin/profile",
+  },
 ];
