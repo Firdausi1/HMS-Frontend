@@ -244,7 +244,7 @@ function DoctorDashboard() {
                         <h3 className="text-lg font-semibold">Profile</h3>
                         <p>Manage your profile.</p>
                         <button 
-                            onClick={() => {}} // Add functionality here
+                           onClick={() => navigate('/doctor-profile')}
                             className="mt-2 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded"
                         >
                             Profile

@@ -92,11 +92,11 @@ const SinglePatient = () => {
     };
 
     const handleViewPreviousPrescriptions = async () => {
-        console.log('Patient ID:', patientId); // Log the patientId
+        console.log('Prescription ID:', prescriptionId); // Log the prescriptionId
 
-        if (!patientId) {
-            alert('Patient ID is not defined');
-            return; // Exit the function if the patient ID is not valid
+        if (!prescriptionId) { // Check for prescriptionId instead of patientId
+            alert('Prescription ID is not defined');
+            return; // Exit the function if the prescription ID is not valid
         }
 
         try {

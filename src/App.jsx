@@ -39,6 +39,9 @@ import AdminProfile from "./pages/Dashboard/Admin/Profile/AdminProfile.jsx";
 import DashboardLayout from "./layout/Layout";
 import Layout from "./pages/Dashboard/ReceptionistDashboard/Layout";
 import QueuedPatients from "./pages/Dashboard/NurseDashboard/QueuedPatients.jsx";
+import AccountantProfile from "./pages/Dashboard/AccountantDashboard/AccountantProfile.jsx";
+import PaymentForm from "./components/PaymentForm.jsx";
+import PaymentHistory from "./components/PaymentHistory.jsx";
 
 function App() {
   return (
@@ -78,6 +81,33 @@ function App() {
           element={
             <PrivateRoute>
               <AccountantDashboard /> {/* Pass Accountant Dashboard as children */}
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/payment"
+          element={
+            <PrivateRoute>
+              <PaymentForm /> {/* Pass DoctorProfile as children */}
+            </PrivateRoute>
+          }
+        />
+
+<Route
+          path="/history"
+          element={
+            <PrivateRoute>
+              <PaymentHistory /> {/* Pass DoctorProfile as children */}
+            </PrivateRoute>
+          }
+        />
+
+<Route
+          path="/accountant-profile"
+          element={
+            <PrivateRoute>
+              <AccountantProfile /> {/* Pass DoctorProfile as children */}
             </PrivateRoute>
           }
         />

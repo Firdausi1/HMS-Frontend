@@ -36,15 +36,15 @@ function AccountantDashboard() {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {/* Card for Take Payment */}
+                    {/* Card for View Invoice */}
                     <div className="bg-white p-4 rounded shadow">
                         <h3 className="text-lg font-semibold">Payment</h3>
-                        <p>View and manage payments.</p>
+                        <p>View and manage Patient Prescription.</p>
                         <button 
                             onClick={() => {}} 
                             className="mt-2 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded"
                         >
-                            Take Payment
+                            View Prescription
                         </button>
                     </div>
 
@@ -56,7 +56,7 @@ function AccountantDashboard() {
                             onClick={() => {}} // Open queue modal
                             className="mt-2 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded"
                         >
-                            Go to Queue
+                            New Invoice
                         </button>
                     </div>
 
@@ -68,7 +68,7 @@ function AccountantDashboard() {
                             onClick={() => {}} 
                             className="mt-2 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded"
                         >
-                            Payments
+                           View Payments
                         </button>
                     </div>
 
@@ -77,7 +77,7 @@ function AccountantDashboard() {
                         <h3 className="text-lg font-semibold">Profile</h3>
                         <p>Manage your profile.</p>
                         <button 
-                            onClick={() => {}} // Add functionality here
+                            onClick={() => navigate('/accountant-profile')} // Navigate to AccountantProfile
                             className="mt-2 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded"
                         >
                             Profile

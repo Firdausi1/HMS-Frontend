@@ -5,7 +5,7 @@ const QueueModal = ({ isOpen, onClose, queuePatients }) => {
     const navigate = useNavigate();
     const handleAttend = (patient) => {
         console.log(`Navigating to patientId: ${patient._id}, prescriptionId: ${patient.prescriptionId}`);
-        navigate(`/patients/${patient._id}`, { state: { prescriptionId: patient.prescriptionId } });
+        navigate(`/patients/${patient?.patient._id}`, { state: { prescriptionId: patient.prescriptionId } });
     };
     if (!isOpen) return null;
 
